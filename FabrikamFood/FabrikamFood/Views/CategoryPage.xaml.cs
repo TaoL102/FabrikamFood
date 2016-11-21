@@ -8,9 +8,9 @@ using Xamarin.Forms;
 
 namespace FabrikamFood.Views
 {
-    public partial class Login : ContentPage
+    public partial class CategoryPage : ContentPage
     {
-        public Login()
+        public CategoryPage()
         {
             InitializeComponent();
         }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FabrikamFood.Views.Category"
+             x:Class="FabrikamFood.Views.CategoryPage"
              xmlns:common="clr-namespace:UXDivers.Gorilla;assembly=UXDivers.Gorilla.Common"
 >
   <!--Resource Start-->
@@ -22,7 +22,7 @@
 
 
   <ContentPage.Content>
-    <ListView ItemsSource="{Binding Source={StaticResource Category}, Path=Obj}" SeparatorVisibility="None"  HasUnevenRows = "False" RowHeight="130" IsPullToRefreshEnabled = "true"  CachingStrategy="RecycleElement" >
+    <ListView  SeparatorVisibility="None"  HasUnevenRows = "False" RowHeight="130" IsPullToRefreshEnabled = "true"  CachingStrategy="RecycleElement" >
       <ListView.ItemTemplate>
         <DataTemplate>
           <ViewCell>

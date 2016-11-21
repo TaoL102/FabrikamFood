@@ -16,7 +16,7 @@
         </StackLayout>
       </Grid>
       <Button Text="Settings" TextColor="Black"  BackgroundColor="White"  Command="{Binding GoHomeCommand}" />
-      <Button Text="Second Page" TextColor="Black"  BackgroundColor="White"   Command="{Binding GoSecondCommand}" />
+      <Button Text="Log Out" TextColor="Black"  BackgroundColor="White"   Command="{Binding LogOutCommand}" />
     </StackLayout>
   </ContentPage.Content>
 </ContentPage>

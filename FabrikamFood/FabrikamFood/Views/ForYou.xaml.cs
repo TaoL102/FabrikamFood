@@ -13,6 +13,7 @@ using Android.Locations;
 using Plugin.Geolocator;
 using FabrikamFood.DataModels;
 using FabrikamFood.APIManagers;
+using System.Globalization;
 
 namespace FabrikamFood.Views
 {
@@ -42,7 +43,7 @@ namespace FabrikamFood.Views
             azureEasyTableManager = AzureEasyTableManager.Instance;
 
             // Get restaurant list
-            restaurantList=await azureEasyTableManager.GetTableRestaurantAsync();
+            restaurantList=await azureEasyTableManager.GetRestaurantsAsync();
 
             // Get nearest restaurant and pin to map
             nearestRestaurant = await googleMapsManager.GetNearestRestaurantAsync(restaurantList);
@@ -59,6 +60,10 @@ namespace FabrikamFood.Views
 
             // Set weather text
             SetWeatherText(currentPosition);
+
+            // Set listview_coupons datasource
+            ListView_Coupons.ItemsSource = await azureEasyTableManager.GetCouponsByApplicableRestaurantIdAsync(nearestRestaurant.ID);
+
         }
 
 

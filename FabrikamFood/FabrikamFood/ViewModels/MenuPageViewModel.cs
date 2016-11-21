@@ -12,12 +12,12 @@ namespace FabrikamFood.ViewModels
     class MenuPageViewModel
     {
         public ICommand GoHomeCommand { get; set; }
-        public ICommand GoSecondCommand { get; set; }
+        public ICommand LogOutCommand { get; set; }
 
         public MenuPageViewModel()
         {
             GoHomeCommand = new Command(GoHome);
-            GoSecondCommand = new Command(GoSecond);
+            LogOutCommand = new Command(LogOut);
         }
 
         void GoHome(object obj)
@@ -26,10 +26,21 @@ namespace FabrikamFood.ViewModels
             App.MenuIsPresented = false;
         }
 
-        void GoSecond(object obj)
+       async void LogOut(object obj)
         {
-           // App.RootPage.Detail = new NavigationPage(new SecondPage());
-            App.MenuIsPresented = false;
+
+            bool loggedOut = false;
+
+            if (App.Authenticator != null)
+            {
+                loggedOut = await App.Authenticator.LogoutAsync();
+            }
+
+            if (loggedOut)
+            {
+                App.RootPage.Detail = new NavigationPage(new LoginPage());
+            }
+        
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FabrikamFood.Views.LoginPage"
+             NavigationPage.HasNavigationBar="false">
+  <ContentPage.Content>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition ></RowDefinition>
+        <RowDefinition Height="50"></RowDefinition>
+        <RowDefinition Height="50"></RowDefinition>
+      </Grid.RowDefinitions>
+      <Image Grid.Row="0" Grid.RowSpan="3" Source="login.jpg" Aspect="AspectFill"></Image>
+      <Label Grid.Row="0" Text="Fabrikam" FontSize="70"  TextColor="White" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" ></Label>     
+      <Button x:Name="Btn_Google_Login" Grid.Row="1"   BackgroundColor="#cf4332" Text="Sign in with Google" TextColor="White" Clicked="Btn_Google_Login_Clicked"></Button>
+      <Button x:Name="Btn_Facebook_Login" Grid.Row="2"   BackgroundColor="#3c66c4"  Text="Sign in with Facebook" TextColor="White" Clicked="Btn_Facebook_Login_Clicked"></Button>
+
+    </Grid>
+  </ContentPage.Content>
+</ContentPage>

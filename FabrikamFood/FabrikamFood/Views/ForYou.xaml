@@ -5,6 +5,7 @@
              xmlns:svg="clr-namespace:XamSvg.XamForms;assembly=XamSvg.XamForms"
                xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:common="clr-namespace:UXDivers.Gorilla;assembly=UXDivers.Gorilla.Common"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
             >
   <!--Resource Start-->
   <ContentPage.Resources>
@@ -19,10 +20,10 @@
       </common:JsonData>
       <common:JsonData x:Key="Favourite">
         [
-        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample1.jpg"},
-        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample1.jpg"},
-        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample1.jpg"},
-        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample1.jpg"}
+        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample.jpg"},
+        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample.jpg"},
+        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample.jpg"},
+        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample.jpg"}
         ]
       </common:JsonData>
     </ResourceDictionary>
@@ -32,8 +33,12 @@
 
   <ContentPage.Content>
     <Grid>
+      <!--<ffimageloading:CachedImage
+                                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                DownsampleToViewSize = "true"
+                                Source = "login.jpg">
+      </ffimageloading:CachedImage>-->
 
-      <Image Source="login.jpg" Aspect="AspectFill"></Image>
       <ScrollView>
         <StackLayout  BackgroundColor="Transparent" Margin="10">
           <!--Greeting Start-->
@@ -52,9 +57,9 @@
 
           <!--Map Start-->
           <StackLayout >
-            <Label Margin="15,15,15,0" Text="Nearest Fabrikam" FontSize="Large" FontAttributes="Bold" TextColor="White"></Label>
-            <Label x:Name="MapRestaurantName" Margin="15,0,15,0" Text="Goole map will guide you to the nearest Fabrikam" FontSize="Small" TextColor="White"></Label>
-            <StackLayout BackgroundColor="#eee">
+            <Label Margin="15,15,15,0" Text="Nearest Fabrikam" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
+            <Label x:Name="MapRestaurantName" Margin="15,0,15,0" Text="Goole map will guide you to the nearest Fabrikam" FontSize="Small" TextColor="Black"></Label>
+            <StackLayout BackgroundColor="White">
               <maps:Map HeightRequest="200"
               x:Name="NearestRestaurantMap"
               IsShowingUser="true"  />
@@ -67,19 +72,22 @@
 
           <!--Coupon Start-->
           <StackLayout >
-            <Label Margin="15,15,15,0" Text="Coupon" FontSize="40" TextColor="White"></Label>
-            <Label  Margin="15,0,15,0" Text="We found these coupons for you" FontSize="25" TextColor="White"></Label>
-            <ListView ItemsSource="{Binding Source={StaticResource Coupon}, Path=Obj}" SeparatorVisibility="None"  HasUnevenRows = "False" RowHeight="130" IsPullToRefreshEnabled = "true"  CachingStrategy="RecycleElement" >
+            <Label Margin="15,15,15,0" Text="Coupon" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
+            <Label  Margin="15,0,15,0" Text="We found these coupons for you" FontSize="Small" TextColor="Black"></Label>
+            <ListView x:Name="ListView_Coupons"  SeparatorVisibility="None"  HasUnevenRows = "False" RowHeight="130" IsPullToRefreshEnabled = "true"  CachingStrategy="RecycleElement" >
               <ListView.ItemTemplate>
                 <DataTemplate>
                   <ViewCell>
                     <StackLayout Orientation="Vertical">
                       <Grid  Margin="0,0,0,10">
                         <ActivityIndicator x:Name="UploadingIndicator" Color="Red" IsRunning="false" Grid.Row="0" />
-                        <Image Source="couponbg_sample1.png"  Grid.Row="0" Aspect="AspectFill"/>
+                        <ffimageloading:CachedImage   
+                          Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                          DownsampleToViewSize = "true"
+                          Source = "couponbg_sample.png">
+                        </ffimageloading:CachedImage>
                         <Grid Grid.Row="0"   Padding="10">
                           <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                           </Grid.RowDefinitions>
@@ -87,13 +95,9 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                           </Grid.ColumnDefinitions>
-                          <Label Margin="0,0,10,0" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Text="{Binding Discount, StringFormat='{0:N} % OFF'}"  FontSize="20" TextColor="White" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
-                          <Label  Margin="10,0,0,0" Grid.Row="0" Text="{Binding ApplicableTo}"  FontSize="15" TextColor="White"/>
-                          <Label Margin="10,0,0,0" Grid.Row="2"  Grid.ColumnSpan="2" Text="{Binding ExpiryDate, StringFormat='Expire Date: {0:N}'}"  FontSize="15" TextColor="White"/>
-                          <Label Margin="10,0,0,0" Grid.Row="1" Text="{Binding Code, StringFormat='Code: # {0:N}'}"  FontSize="15" TextColor="White"/>
-
-                          <Image Source="{Binding PicUrl}"  />
-
+                          <Label Margin="0,0,10,0" Grid.Row="1" Grid.Column="1" Text="{Binding Discount, StringFormat='{0:0} % OFF'}"  FontSize="20" TextColor="White" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+                          <Label  Margin="10,0,0,0" Grid.Row="1" Text="{Binding CategoryName}"  FontSize="20" TextColor="White"/>
+                          <Label Margin="10,0,0,0" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Code, StringFormat='Code #: {0:N}'}"  FontSize="Small" TextColor="White"/>
                         </Grid>
                       </Grid>
                     </StackLayout >
@@ -107,8 +111,8 @@
 
           <!--Favourite Start-->
           <StackLayout >
-            <Label Margin="15,15,15,0" Text="Your Favourites" FontSize="40" TextColor="White"></Label>
-            <Label  Margin="15,0,15,0" Text="Based on your history orders" FontSize="25" TextColor="White"></Label>
+            <Label Margin="15,15,15,0" Text="Your Favourites" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
+            <Label  Margin="15,0,15,0" Text="Based on your history orders" FontSize="Small" TextColor="Black"></Label>
             <ListView ItemsSource="{Binding Source={StaticResource Favourite}, Path=Obj}" SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="300" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
               <ListView.ItemTemplate>
                 <DataTemplate>
@@ -124,7 +128,13 @@
                           <ColumnDefinition  Width="*"></ColumnDefinition>
                           <ColumnDefinition Width="50"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Image Grid.Row="0" Grid.ColumnSpan="2" Source="{Binding PicUrl}"  Aspect="AspectFill"/>
+                        <ffimageloading:CachedImage
+                         Grid.Row="0" Grid.ColumnSpan="2"
+                         HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                         DownsampleToViewSize = "true"
+                         Source ="{Binding PicUrl}">
+                        </ffimageloading:CachedImage>
+
                         <Label Grid.Row="1" Grid.Column="0" Text="{Binding Name}"  FontSize="20" TextColor="Black"/>
                         <Label Grid.Row="1" Grid.Column="1"  Text="{Binding Price}"  FontSize="20" TextColor="Black"/>
                       </Grid>

@@ -5,5 +5,5 @@
             xmlns:local="clr-namespace:FabrikamFood.Views"
              x:Class="FabrikamFood.Views.MainPage">
   <local:ForYou  Title="For You" Icon="icon.png"/>
-  <local:Category Title="Meals"/>
+  <local:CategoryPage Title="Meals"/>
 </TabbedPage>
