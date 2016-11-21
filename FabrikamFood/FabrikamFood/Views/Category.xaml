@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FabrikamFood.Views.Category"
+             xmlns:common="clr-namespace:UXDivers.Gorilla;assembly=UXDivers.Gorilla.Common"
+>
+  <!--Resource Start-->
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <common:JsonData x:Key="Category">
+        [
+        { "Code": "2D4SXD", "Discount":29,"Name":"Drinks", "PicUrl":"friend_thumbnail_27.jpg","ExpiryDate":"Dec 15,2016" },
+        { "Code": "2D4SXD", "Discount":29,"Name":"Desserts", "PicUrl":"friend_thumbnail_27.jpg","ExpiryDate":"Dec 15,2016" },
+        { "Code": "2D4SXD", "Discount":29,"Name":"Breakfastt", "PicUrl":"friend_thumbnail_27.jpg" ,"ExpiryDate":"Dec 15,2016"},
+        { "Code": "2D4SXD", "Discount":29,"Name":"Sides", "PicUrl":"friend_thumbnail_27.jpg" ,"ExpiryDate":"Dec 15,2016"}
+        ]
+      </common:JsonData>
+
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <!--Resource End-->
+
+
+  <ContentPage.Content>
+    <ListView ItemsSource="{Binding Source={StaticResource Category}, Path=Obj}" SeparatorVisibility="None"  HasUnevenRows = "False" RowHeight="130" IsPullToRefreshEnabled = "true"  CachingStrategy="RecycleElement" >
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Orientation="Vertical">
+              <Grid  Margin="0,0,0,10">
+                <Image Source="couponbg_sample1.png"  Grid.Row="0" Aspect="AspectFill"/>
+
+
+                  <Label VerticalTextAlignment="Center" Grid.Row="0" HeightRequest="130" Margin="40,0,0,0" Text="{Binding Name}"  FontSize="Large" TextColor="White"/>
+
+
+              </Grid>
+            </StackLayout >
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </ContentPage.Content>
+
+
+</ContentPage>

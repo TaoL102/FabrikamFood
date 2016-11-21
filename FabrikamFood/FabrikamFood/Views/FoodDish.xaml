@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FabrikamFood.Views.FoodDish"
+             xmlns:common="clr-namespace:UXDivers.Gorilla;assembly=UXDivers.Gorilla.Common"
+>
+
+  <!--Resource Start-->
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <common:JsonData x:Key="FoodDish">
+       
+        { "Code": "2D4SXD", "Discount":29,"Name":"Drinks", "PicUrl":"friend_thumbnail_27.jpg","ExpiryDate":"Dec 15,2016" }
+      </common:JsonData>
+
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <!--Resource End-->
+
+  <ContentPage.Content>
+
+            <StackLayout Orientation="Vertical" >
+              <Grid HeightRequest="600" >
+                <Image Source="couponbg_sample.png"  Grid.Row="0" Aspect="AspectFill"/>
+
+                <Grid Grid.Row="0" HeightRequest="50" Margin="40,500,0,40" >
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                  </Grid.ColumnDefinitions>
+                  <Label Grid.Column="0" Text="Dish Name"  FontSize="Large" TextColor="White"/>
+                  <Label HorizontalTextAlignment="End" Margin="0,0,40,0" Grid.Column="1" Text="$19.99"  FontSize="Large" TextColor="White"/>
+                </Grid>
+              </Grid>
+              
+            </StackLayout >
+
+  </ContentPage.Content>
+  
+</ContentPage>

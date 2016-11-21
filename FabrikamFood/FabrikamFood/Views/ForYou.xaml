@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FabrikamFood.Views.ForYou"
+             xmlns:svg="clr-namespace:XamSvg.XamForms;assembly=XamSvg.XamForms"
+               xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:common="clr-namespace:UXDivers.Gorilla;assembly=UXDivers.Gorilla.Common"
+            >
+  <!--Resource Start-->
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <common:JsonData x:Key="Coupon">
+        [
+        { "Code": "2D4SXD", "Discount":29,"ApplicableTo":"Drinks", "PicUrl":"friend_thumbnail_27.jpg","ExpiryDate":"Dec 15,2016" },
+        { "Code": "2D4SXD", "Discount":29,"ApplicableTo":"Drinks", "PicUrl":"friend_thumbnail_27.jpg","ExpiryDate":"Dec 15,2016" },
+        { "Code": "2D4SXD", "Discount":29,"ApplicableTo":"Drinks", "PicUrl":"friend_thumbnail_27.jpg" ,"ExpiryDate":"Dec 15,2016"},
+        { "Code": "2D4SXD", "Discount":29,"ApplicableTo":"Drinks", "PicUrl":"friend_thumbnail_27.jpg" ,"ExpiryDate":"Dec 15,2016"}
+        ]
+      </common:JsonData>
+      <common:JsonData x:Key="Favourite">
+        [
+        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample1.jpg"},
+        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample1.jpg"},
+        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample1.jpg"},
+        { "Name": "Healthy Shrimp Pad Thai", "Price":29,"PicUrl":"food_sample1.jpg"}
+        ]
+      </common:JsonData>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <!--Resource End-->
+
+
+  <ContentPage.Content>
+    <Grid>
+
+      <Image Source="login.jpg" Aspect="AspectFill"></Image>
+      <ScrollView>
+        <StackLayout  BackgroundColor="Transparent" Margin="10">
+          <!--Greeting Start-->
+          <Grid > 
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition  ></ColumnDefinition >
+              <ColumnDefinition  ></ColumnDefinition >
+              <ColumnDefinition  ></ColumnDefinition >
+            </Grid.ColumnDefinitions>
+            <Grid Grid.ColumnSpan="3" BackgroundColor="Gray" Opacity="0.5"></Grid>
+            <Label x:Name="Lbl_Greeting" Grid.Column="0"  Margin="15" Text="" FontSize="Small" TextColor="White"></Label>
+            <Image  x:Name="Img_Weather"  Grid.Column="1" Margin="15" Source=""></Image>
+            <Label  x:Name="Lbl_Weather"  Grid.Column="2" Margin="15" Text=""  FontSize="Small"  TextColor="White"></Label>
+          </Grid>
+          <!--Greeting End-->
+
+          <!--Map Start-->
+          <StackLayout >
+            <Label Margin="15,15,15,0" Text="Nearest Fabrikam" FontSize="Large" FontAttributes="Bold" TextColor="White"></Label>
+            <Label x:Name="MapRestaurantName" Margin="15,0,15,0" Text="Goole map will guide you to the nearest Fabrikam" FontSize="Small" TextColor="White"></Label>
+            <StackLayout BackgroundColor="#eee">
+              <maps:Map HeightRequest="200"
+              x:Name="NearestRestaurantMap"
+              IsShowingUser="true"  />
+              <Label x:Name="MapRestaurantNav" Margin="15,0,15,0" Text="Goole map will guide you to the nearest Fabrikam" FontSize="Small" TextColor="Black"></Label>
+              <Button x:Name="NavBtn" Text="NAVIGATE" TextColor="Black" BackgroundColor="White" Clicked="NavBtn_Clicked"></Button>
+</StackLayout>
+
+          </StackLayout>
+          <!--Map End-->
+
+          <!--Coupon Start-->
+          <StackLayout >
+            <Label Margin="15,15,15,0" Text="Coupon" FontSize="40" TextColor="White"></Label>
+            <Label  Margin="15,0,15,0" Text="We found these coupons for you" FontSize="25" TextColor="White"></Label>
+            <ListView ItemsSource="{Binding Source={StaticResource Coupon}, Path=Obj}" SeparatorVisibility="None"  HasUnevenRows = "False" RowHeight="130" IsPullToRefreshEnabled = "true"  CachingStrategy="RecycleElement" >
+              <ListView.ItemTemplate>
+                <DataTemplate>
+                  <ViewCell>
+                    <StackLayout Orientation="Vertical">
+                      <Grid  Margin="0,0,0,10">
+                        <ActivityIndicator x:Name="UploadingIndicator" Color="Red" IsRunning="false" Grid.Row="0" />
+                        <Image Source="couponbg_sample1.png"  Grid.Row="0" Aspect="AspectFill"/>
+                        <Grid Grid.Row="0"   Padding="10">
+                          <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                          </Grid.RowDefinitions>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                          </Grid.ColumnDefinitions>
+                          <Label Margin="0,0,10,0" Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Text="{Binding Discount, StringFormat='{0:N} % OFF'}"  FontSize="20" TextColor="White" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+                          <Label  Margin="10,0,0,0" Grid.Row="0" Text="{Binding ApplicableTo}"  FontSize="15" TextColor="White"/>
+                          <Label Margin="10,0,0,0" Grid.Row="2"  Grid.ColumnSpan="2" Text="{Binding ExpiryDate, StringFormat='Expire Date: {0:N}'}"  FontSize="15" TextColor="White"/>
+                          <Label Margin="10,0,0,0" Grid.Row="1" Text="{Binding Code, StringFormat='Code: # {0:N}'}"  FontSize="15" TextColor="White"/>
+
+                          <Image Source="{Binding PicUrl}"  />
+
+                        </Grid>
+                      </Grid>
+                    </StackLayout >
+                  </ViewCell>
+                </DataTemplate>
+              </ListView.ItemTemplate>
+            </ListView>
+          </StackLayout>
+
+          <!--Coupon End-->
+
+          <!--Favourite Start-->
+          <StackLayout >
+            <Label Margin="15,15,15,0" Text="Your Favourites" FontSize="40" TextColor="White"></Label>
+            <Label  Margin="15,0,15,0" Text="Based on your history orders" FontSize="25" TextColor="White"></Label>
+            <ListView ItemsSource="{Binding Source={StaticResource Favourite}, Path=Obj}" SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="300" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
+              <ListView.ItemTemplate>
+                <DataTemplate>
+                  <ViewCell>
+                    <StackLayout BackgroundColor="#eee"
+                       Orientation="Vertical">
+                      <Grid>
+                        <Grid.RowDefinitions>
+                          <RowDefinition Height="250"></RowDefinition>
+                          <RowDefinition Height="50"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition  Width="*"></ColumnDefinition>
+                          <ColumnDefinition Width="50"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Row="0" Grid.ColumnSpan="2" Source="{Binding PicUrl}"  Aspect="AspectFill"/>
+                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding Name}"  FontSize="20" TextColor="Black"/>
+                        <Label Grid.Row="1" Grid.Column="1"  Text="{Binding Price}"  FontSize="20" TextColor="Black"/>
+                      </Grid>
+                    </StackLayout>
+                  </ViewCell>
+                </DataTemplate>
+              </ListView.ItemTemplate>
+            </ListView>
+          </StackLayout>
+
+          <!--Favourite End-->
+
+          <Label Text=""></Label>
+
+        </StackLayout>
+      </ScrollView>
+    </Grid>
+
+  </ContentPage.Content>
+
+
+</ContentPage>
