@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FabrikamFood.Views.MenuPage">
+             x:Class="FabrikamFood.Views.DrawerPage">
   <ContentPage.Padding>
     <OnPlatform x:TypeArguments="Thickness" iOS="0, 20, 0, 0" />
   </ContentPage.Padding>
@@ -15,7 +15,9 @@
         <Label Text="lioutau@gmail.com"  TextColor="White"></Label>
         </StackLayout>
       </Grid>
-      <Button Text="Settings" TextColor="Black"  BackgroundColor="White"  Command="{Binding GoHomeCommand}" />
+      <Button Text="Home" TextColor="Black"  BackgroundColor="White"  Command="{Binding GoHomeCommand}" />
+      <Button Text="Menu" TextColor="Black"  BackgroundColor="White"   Command="{Binding GoMenuCommand}" />
+      <Button Text="Reservation" TextColor="Black"  BackgroundColor="White"   Command="{Binding GoReservationCommand}" />
       <Button Text="Log Out" TextColor="Black"  BackgroundColor="White"   Command="{Binding LogOutCommand}" />
     </StackLayout>
   </ContentPage.Content>

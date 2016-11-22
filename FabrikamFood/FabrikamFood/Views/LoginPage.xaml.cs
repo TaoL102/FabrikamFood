@@ -29,9 +29,7 @@ namespace FabrikamFood.Views
 
             if (authenticated == true)
             {
-                var menuPage = new MenuPage();
-                NavigationPage NavigationPage = new NavigationPage(new MainPage());
-                App.RootPage.Master = menuPage;
+                NavigationPage NavigationPage = new NavigationPage(new HomePage());
                 App.RootPage.Detail = NavigationPage;
             }
         }

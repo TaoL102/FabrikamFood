@@ -16,14 +16,16 @@ namespace FabrikamFood.APIManagers
         private IMobileServiceTable<Coupon> couponTable;
         private IMobileServiceTable<FoodDish> foodDishTable;
         private IMobileServiceTable<Category> categoryTable;
+        private IMobileServiceTable<Reservation> reservationTable;
 
         private AzureEasyTableManager()
         {
-            this.client = new MobileServiceClient("http://msafabrikamfood.azurewebsites.net");
+            this.client = new MobileServiceClient("https://msafabrikamfood.azurewebsites.net");
             this.restaurantTable = this.client.GetTable<Restaurant>();
             this.couponTable = this.client.GetTable<Coupon>();
             this.foodDishTable = this.client.GetTable<FoodDish>();
             this.categoryTable= this.client.GetTable<Category>();
+            this.reservationTable = this.client.GetTable<Reservation>();
         }
 
         public static AzureEasyTableManager Instance
@@ -50,8 +52,10 @@ namespace FabrikamFood.APIManagers
 
         public async Task<List<Coupon>> GetCouponsByApplicableRestaurantIdAsync(string applicableRestaurantId)
         {
-            List<Coupon> coupons = await GetCouponsAsync();
-            coupons= coupons.Where(c=>c.ApplicableRestaurantId.Equals(applicableRestaurantId)).ToList();
+            List<Coupon> coupons = await this.couponTable
+                .Where(c=>c.ApplicableRestaurantId==applicableRestaurantId)
+                .ToListAsync();
+
             return coupons;
         }
 
@@ -68,8 +72,10 @@ namespace FabrikamFood.APIManagers
 
         public async Task<List<FoodDish>> GetFoodDishByCategoryIdAsync(string categoryId)
         {
-            List<FoodDish> foodDishes = await GetFoodDishesAsync();
-            foodDishes = foodDishes.Where(c => c.CategoryId.Equals(categoryId)).ToList();
+            List<FoodDish> foodDishes = await this.foodDishTable
+                .Where(c => c.CategoryId==categoryId)
+                .ToListAsync();
+            
             return foodDishes;
         }
 
@@ -87,6 +93,25 @@ namespace FabrikamFood.APIManagers
         public async Task InsertTableCategory(Category category)
         {
             await this.categoryTable.InsertAsync(category);
+        }
+
+        public async Task InsertTableReservation(Reservation o)
+        {
+            await this.reservationTable.InsertAsync(o);
+        }
+
+        public async Task<List<Reservation>> GetReservationByUserIdAsync(string userId)
+        {
+            List<Reservation> list = await this.reservationTable.Where(c => c.UserID==userId).ToListAsync();
+            list = list.Where(o => o.Date.Date >= DateTime.Today.Date).ToList();
+            return list;
+        }
+
+        public async Task<List<Reservation>> GetReservationForTodayByUserIdAsync(string userId)
+        {
+            List<Reservation> list = await GetReservationForTodayByUserIdAsync(userId);
+            list = list.Where(o => o.Date.Date == DateTime.Today.Date).ToList();
+            return list;
         }
     }
 }

@@ -46,37 +46,35 @@
     <Compile Include="DataModels\Coupon.cs" />
     <Compile Include="DataModels\CurrentWeather.cs" />
     <Compile Include="DataModels\FoodDish.cs" />
+    <Compile Include="DataModels\Reservation.cs" />
     <Compile Include="DataModels\Restaurant.cs" />
     <Compile Include="DataModels\GoogleMapsDistance.cs" />
     <Compile Include="ViewModels\MenuPageViewModel.cs" />
-    <Compile Include="Views\CategoryPage.xaml.cs">
-      <DependentUpon>CategoryPage.xaml</DependentUpon>
+    <Compile Include="ViewModels\ReservationViewModel.cs" />
+    <Compile Include="Views\DishMenuPage.xaml.cs">
+      <DependentUpon>DishMenuPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FoodDishPage.xaml.cs">
       <DependentUpon>FoodDishPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ForYou.xaml.cs">
-      <DependentUpon>ForYou.xaml</DependentUpon>
+    <Compile Include="Views\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\MenuPage.xaml.cs">
-      <DependentUpon>MenuPage.xaml</DependentUpon>
+    <Compile Include="Views\DrawerPage.xaml.cs">
+      <DependentUpon>DrawerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReservationPage.xaml.cs">
+      <DependentUpon>ReservationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RootPage.xaml.cs">
       <DependentUpon>RootPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
     <EmbeddedResource Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
@@ -163,13 +161,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\ForYou.xaml">
+    <EmbeddedResource Include="Views\HomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\CategoryPage.xaml">
+    <EmbeddedResource Include="Views\DishMenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -181,7 +179,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\MenuPage.xaml">
+    <EmbeddedResource Include="Views\DrawerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -192,7 +190,12 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Views\ReservationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.166-pre4\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.166-pre4\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

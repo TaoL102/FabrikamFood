@@ -14,21 +14,23 @@ using Plugin.Geolocator;
 using FabrikamFood.DataModels;
 using FabrikamFood.APIManagers;
 using System.Globalization;
+using FabrikamFood.ViewModels;
 
 namespace FabrikamFood.Views
 {
-    public partial class ForYou : ContentPage
+    public partial class HomePage : ContentPage
     {
         // Fields
         private GoogleMapsManager googleMapsManager;
         private WeatherManager weatherManager;
         private AzureEasyTableManager azureEasyTableManager;
+        private AzureAuthManager azureAuthManager;
         private List<Restaurant> restaurantList;
         private Restaurant nearestRestaurant;
         private ViewModels.GoogleMapsDistance.Element nearestMapElement;
         private Position currentPosition;
 
-        public ForYou()
+        public HomePage()
         {
             InitializeComponent();
 
@@ -41,9 +43,10 @@ namespace FabrikamFood.Views
             googleMapsManager = GoogleMapsManager.Instance;
             weatherManager = WeatherManager.Instance;
             azureEasyTableManager = AzureEasyTableManager.Instance;
+            azureAuthManager = AzureAuthManager.Instance;
 
             // Get restaurant list
-            restaurantList=await azureEasyTableManager.GetRestaurantsAsync();
+            restaurantList = App.RestaurantList;
 
             // Get nearest restaurant and pin to map
             nearestRestaurant = await googleMapsManager.GetNearestRestaurantAsync(restaurantList);
@@ -64,6 +67,8 @@ namespace FabrikamFood.Views
             // Set listview_coupons datasource
             ListView_Coupons.ItemsSource = await azureEasyTableManager.GetCouponsByApplicableRestaurantIdAsync(nearestRestaurant.ID);
 
+            // Set listview_restaurants datasource
+            ListView_Reservations.ItemsSource =await  GetReservationsForToday();
         }
 
 
@@ -134,6 +139,55 @@ namespace FabrikamFood.Views
             // set text
             Lbl_Weather.Text = dic["CityAndTemp"];
             Img_Weather.Source = dic["IconURL"];
+        }
+
+        private async Task<List<ReservationViewModel>> GetReservationsForToday()
+        {
+            try
+            {
+ // Get current user id
+            var user = azureAuthManager.CurrentClient.CurrentUser;
+                if (user == null)
+                {
+
+                    return null;
+                }
+
+                // Get reservations
+                List<Reservation> list = await AzureEasyTableManager.Instance.GetReservationForTodayByUserIdAsync(user.UserId);
+                List<ReservationViewModel> listModel = new List<ReservationViewModel>();
+
+                foreach (var r in list)
+                {
+                    Restaurant restaurant = App.RestaurantList.Where(o => o.ID.Equals(r.RestaurantID)).FirstOrDefault();
+                    ReservationViewModel model = new ReservationViewModel()
+                    {
+                        ID = r.ID,
+                        RestaurantID = restaurant.ID,
+                        RestaurantAddress = restaurant.Address,
+                        RestaurantName = restaurant.Name,
+                        RestaurantPosition = new Position(restaurant.Latitude, restaurant.Longitude),
+                        Date = r.Date.ToString("dd/MM/yyyy"),
+                        Time = r.Time.ToString(@"hh\:mm")
+                    };
+
+                    listModel.Add(model);
+                }
+
+                return listModel;
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
+
+
+
+            
         }
     }
 }

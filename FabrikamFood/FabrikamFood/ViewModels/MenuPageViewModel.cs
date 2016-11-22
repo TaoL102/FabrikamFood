@@ -13,20 +13,34 @@ namespace FabrikamFood.ViewModels
     {
         public ICommand GoHomeCommand { get; set; }
         public ICommand LogOutCommand { get; set; }
+        public ICommand GoMenuCommand { get; set; }
+        public ICommand GoReservationCommand { get; set; }
 
         public MenuPageViewModel()
         {
             GoHomeCommand = new Command(GoHome);
             LogOutCommand = new Command(LogOut);
+            GoMenuCommand = new Command(GoMenu);
+            GoReservationCommand = new Command(GoReservation);
         }
 
         void GoHome(object obj)
         {
-            App.RootPage.Detail = new NavigationPage(new MainPage());
+            App.RootPage.Detail = new NavigationPage(new HomePage());
+            App.MenuIsPresented = false;
+        }
+        void GoMenu(object obj)
+        {
+            App.RootPage.Detail = new NavigationPage(new DishMenuPage());
+            App.MenuIsPresented = false;
+        }
+        void GoReservation(object obj)
+        {
+            App.RootPage.Detail = new NavigationPage(new ReservationPage());
             App.MenuIsPresented = false;
         }
 
-       async void LogOut(object obj)
+        async void LogOut(object obj)
         {
 
             bool loggedOut = false;

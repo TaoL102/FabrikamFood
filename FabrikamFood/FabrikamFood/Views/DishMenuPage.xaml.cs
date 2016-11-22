@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
 
 namespace FabrikamFood.Views
 {
-    public partial class MainPage : TabbedPage
+    public partial class DishMenuPage : ContentPage
     {
-        public MainPage()
+        public DishMenuPage()
         {
             InitializeComponent();
         }

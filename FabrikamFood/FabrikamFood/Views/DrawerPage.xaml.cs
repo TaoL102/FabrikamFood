@@ -9,9 +9,9 @@ using Xamarin.Forms;
 
 namespace FabrikamFood.Views
 {
-    public partial class MenuPage : ContentPage
+    public partial class DrawerPage : ContentPage
     {
-        public MenuPage()
+        public DrawerPage()
         {
             BindingContext = new MenuPageViewModel();
             Title = "Menu";

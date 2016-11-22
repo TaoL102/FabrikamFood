@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FabrikamFood.Views.ForYou"
+             x:Class="FabrikamFood.Views.HomePage"
              xmlns:svg="clr-namespace:XamSvg.XamForms;assembly=XamSvg.XamForms"
                xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:common="clr-namespace:UXDivers.Gorilla;assembly=UXDivers.Gorilla.Common"
@@ -33,11 +33,6 @@
 
   <ContentPage.Content>
     <Grid>
-      <!--<ffimageloading:CachedImage
-                                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                                DownsampleToViewSize = "true"
-                                Source = "login.jpg">
-      </ffimageloading:CachedImage>-->
 
       <ScrollView>
         <StackLayout  BackgroundColor="Transparent" Margin="10">
@@ -54,6 +49,59 @@
             <Label  x:Name="Lbl_Weather"  Grid.Column="2" Margin="15" Text=""  FontSize="Small"  TextColor="White"></Label>
           </Grid>
           <!--Greeting End-->
+          
+           <!--Today Reservation Start-->
+          <StackLayout >
+            <Label Margin="15,15,15,0" Text="Today's Reservation" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
+            <!--<Label  Margin="15,0,15,0" Text="Based on your history orders" FontSize="Small" TextColor="Black"></Label>-->
+            <ListView x:Name="ListView_Reservations"   SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="150" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
+              <ListView.ItemTemplate>
+                <DataTemplate>
+                  <ViewCell>
+                    <StackLayout BackgroundColor="#eee"
+                       Orientation="Vertical">
+                      <Grid>
+                        
+                        <ffimageloading:CachedImage   
+                          Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                          DownsampleToViewSize = "true"
+                          Source = "couponbg_sample.png">
+                        </ffimageloading:CachedImage>
+                        <StackLayout>
+                        <Label  Text="{Binding RestaurantName}"  FontSize="15" TextColor="White"/>
+                        <Label  Text="{Binding RestaurantAddress}"  FontSize="Small" TextColor="White"/>
+                          <Grid>
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition></ColumnDefinition>
+                              <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                           <ffimageloading:CachedImage   
+                          Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                          DownsampleToViewSize = "true"
+                          Source = "icon.png">
+                        </ffimageloading:CachedImage>
+                            <Label  Text="{Binding Time}"  FontSize="Small" TextColor="White"/>
+                          </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition></ColumnDefinition>
+                              <ColumnDefinition></ColumnDefinition>
+                              <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"  Text="CALL" BackgroundColor="Green" FontSize="Small" TextColor="White"/>
+                            <Button  Grid.Column="1"  Text="Uber" BackgroundColor="Black" FontSize="Small" TextColor="White"/>
+                            <Button  Grid.Column="2"  Text="Map" BackgroundColor="Red" FontSize="Small" TextColor="White"/>
+                          </Grid>
+                          </StackLayout>
+                      </Grid>
+                    </StackLayout>
+                  </ViewCell>
+                </DataTemplate>
+              </ListView.ItemTemplate>
+            </ListView>
+          </StackLayout>
+
+          <!--Today Reservation End-->
 
           <!--Map Start-->
           <StackLayout >

@@ -9,22 +9,18 @@ namespace FabrikamFood.APIManagers
 {
    public partial class AzureAuthManager
     {
-        private static AzureAuthManager instance;
+        private static readonly AzureAuthManager instance= new AzureAuthManager();
         private MobileServiceClient client;
 
         private AzureAuthManager()
         {
-            this.client = new MobileServiceClient("http://msafabrikamfood.azurewebsites.net");
+            this.client = new MobileServiceClient("https://msafabrikamfood.azurewebsites.net");
         }
 
         public static AzureAuthManager Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new AzureAuthManager();
-                }
                 return instance;
             }
         }
@@ -32,6 +28,12 @@ namespace FabrikamFood.APIManagers
         public MobileServiceClient CurrentClient
         {
             get { return client; }
+        }
+
+        public async void Authenticate()
+        {
+            if (App.Authenticator != null)
+                 await App.Authenticator.Authenticate(MobileServiceAuthenticationProvider.Google);
         }
     }
 }

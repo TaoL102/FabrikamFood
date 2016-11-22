@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FabrikamFood.DataModels
 {
-    class Restaurant
+    public class Restaurant
     {
         [JsonProperty(PropertyName = "Id")]
         public string ID { get; set; }
