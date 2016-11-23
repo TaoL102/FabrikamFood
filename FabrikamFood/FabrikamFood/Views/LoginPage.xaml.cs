@@ -1,4 +1,5 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
+﻿using FabrikamFood.APIManagers;
+using Microsoft.WindowsAzure.MobileServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +30,13 @@ namespace FabrikamFood.Views
 
             if (authenticated == true)
             {
-                NavigationPage NavigationPage = new NavigationPage(new HomePage());
-                App.RootPage.Detail = NavigationPage;
+                // Save to property dictionary 
+                App.SaveUserId(AzureMobileServiceManager.Instance.CurrentClient.CurrentUser.UserId);
+
+                Navigation.InsertPageBefore(new HomePage(), this);
+                App.RootPage.Master.IsVisible = true;
+                await Navigation.PopAsync();
+
             }
         }
 
@@ -39,8 +45,8 @@ namespace FabrikamFood.Views
             if (App.Authenticator != null)
                 authenticated = await App.Authenticator.Authenticate(MobileServiceAuthenticationProvider.Google);
 
-            
-                
+
+
         }
 
         async void Btn_Facebook_Login_Clicked(object sender, EventArgs e)

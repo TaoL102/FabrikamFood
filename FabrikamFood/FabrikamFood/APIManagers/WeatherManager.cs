@@ -27,6 +27,7 @@ namespace FabrikamFood.APIManagers
 
         public async Task<Dictionary<string, string>> GetCurrentWeather(Position currentPosition)
         {
+            
             // API call parameters
             string apiKey = "appid=6a9c4821930e1eeb29ab3511220b6102";
             string url = "http://api.openweathermap.org/data/2.5/weather?";

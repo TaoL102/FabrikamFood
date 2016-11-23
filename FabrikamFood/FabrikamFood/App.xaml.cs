@@ -13,6 +13,19 @@ using Xamarin.Forms;
 
 namespace FabrikamFood
 {
+    public static class Constants
+    {
+        // mobile services and gateway URLs.
+        public static string APPLICATION_URL = "https://msafabrikamfood.azurewebsites.net";
+
+        #region DimentionValues
+
+        public static int  LISTVIEW_CELL_HEIGHT_RESERVATION = 180;
+        public static int LISTVIEW_CELL_HEIGHT_COUPON = 130;
+
+        #endregion
+    }
+
     public interface IAuthenticate
         {
             Task<bool> Authenticate(MobileServiceAuthenticationProvider authProvider);
@@ -52,7 +65,7 @@ namespace FabrikamFood
             RootPage = new RootPage();
             RootPage.Master = menuPage;
 
-            if (AzureAuthManager.Instance.CurrentClient.CurrentUser == null)
+            if (App.GetUserId()==null)
             {
                 NavigationPage = new NavigationPage(new LoginPage());
                 RootPage.Master.IsVisible = false;
@@ -87,7 +100,22 @@ namespace FabrikamFood
 
         private async void InitRestaurantList()
         {
-            RestaurantList= await AzureEasyTableManager.Instance.GetRestaurantsAsync();
+            RestaurantList= await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
+        }
+
+        public async static void SaveUserId(string id)
+        {
+                Application.Current.Properties["userid"] = id;
+            await Application.Current.SavePropertiesAsync();
+        }
+
+        public static string GetUserId()
+        {
+            if (Application.Current.Properties.ContainsKey("userid"))
+            {
+return Application.Current.Properties["userid"] as string;
+            }
+            return null;
         }
     }
 }

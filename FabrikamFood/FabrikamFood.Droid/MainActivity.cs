@@ -47,13 +47,13 @@ namespace FabrikamFood.Droid
                 if (authProvider.Equals(MobileServiceAuthenticationProvider.Google))
                 {
                     // Sign in with Google login using a server-managed flow.
-                user = await AzureAuthManager.Instance.CurrentClient.LoginAsync(this,
+                user = await AzureMobileServiceManager.Instance.CurrentClient.LoginAsync(this,
                     MobileServiceAuthenticationProvider.Google);
                 }
                 else
                 {
                     // Sign in with Facebook login using a server-managed flow.
-                    user = await AzureAuthManager.Instance.CurrentClient.LoginAsync(this,
+                    user = await AzureMobileServiceManager.Instance.CurrentClient.LoginAsync(this,
                         MobileServiceAuthenticationProvider.Facebook);
                 }
 
@@ -84,7 +84,7 @@ namespace FabrikamFood.Droid
                 if (user != null)
                 {
                     CookieManager.Instance.RemoveAllCookie();
-                    await AzureAuthManager.Instance.CurrentClient.LogoutAsync();
+                    await AzureMobileServiceManager.Instance.CurrentClient.LogoutAsync();
                     CreateAndShowDialog(string.Format("You are now logged out - {0}", user.UserId), "Logged out!");
                 }
                 user = null;

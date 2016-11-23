@@ -21,10 +21,6 @@ namespace FabrikamFood.Views
     public partial class HomePage : ContentPage
     {
         // Fields
-        private GoogleMapsManager googleMapsManager;
-        private WeatherManager weatherManager;
-        private AzureEasyTableManager azureEasyTableManager;
-        private AzureAuthManager azureAuthManager;
         private List<Restaurant> restaurantList;
         private Restaurant nearestRestaurant;
         private ViewModels.GoogleMapsDistance.Element nearestMapElement;
@@ -37,26 +33,25 @@ namespace FabrikamFood.Views
             Init();
         }
 
-        private async Task Init()
+        private async void Init()
         {
-            // Initialize fileds
-            googleMapsManager = GoogleMapsManager.Instance;
-            weatherManager = WeatherManager.Instance;
-            azureEasyTableManager = AzureEasyTableManager.Instance;
-            azureAuthManager = AzureAuthManager.Instance;
+            await AzureMobileServiceManager.Instance.SyncAsync();
+
+            // Set listview_restaurants datasource
+            ListView_Reservations.ItemsSource = await GetReservationsForToday();
 
             // Get restaurant list
             restaurantList = App.RestaurantList;
 
             // Get nearest restaurant and pin to map
-            nearestRestaurant = await googleMapsManager.GetNearestRestaurantAsync(restaurantList);
+            nearestRestaurant = await GoogleMapsManager.Instance.GetNearestRestaurantAsync(restaurantList);
             PinToMap(nearestRestaurant);
 
             // Get nearest distance element
-            nearestMapElement = googleMapsManager.GetMinDistanceElement();
+            nearestMapElement = GoogleMapsManager.Instance.GetMinDistanceElement();
 
             // Get current position
-            currentPosition = await googleMapsManager.GetCurrentPositionAsync();
+            currentPosition = await GoogleMapsManager.Instance.GetCurrentPositionAsync();
 
             // Set map text
             SetMapText(nearestRestaurant, nearestMapElement);
@@ -65,10 +60,9 @@ namespace FabrikamFood.Views
             SetWeatherText(currentPosition);
 
             // Set listview_coupons datasource
-            ListView_Coupons.ItemsSource = await azureEasyTableManager.GetCouponsByApplicableRestaurantIdAsync(nearestRestaurant.ID);
+            ListView_Coupons.ItemsSource = await AzureMobileServiceManager.Instance.GetCouponsByApplicableRestaurantIdAsync(nearestRestaurant.ID);
 
-            // Set listview_restaurants datasource
-            ListView_Reservations.ItemsSource =await  GetReservationsForToday();
+
         }
 
 
@@ -134,7 +128,7 @@ namespace FabrikamFood.Views
         private async void SetWeatherText(Position currentPosition)
         {
             // Get weather info
-            Dictionary<string, string>  dic=await weatherManager.GetCurrentWeather(currentPosition);
+            Dictionary<string, string>  dic=await WeatherManager.Instance.GetCurrentWeather(currentPosition);
 
             // set text
             Lbl_Weather.Text = dic["CityAndTemp"];
@@ -146,15 +140,18 @@ namespace FabrikamFood.Views
             try
             {
  // Get current user id
-            var user = azureAuthManager.CurrentClient.CurrentUser;
-                if (user == null)
+            
+
+                if (App.GetUserId() == null)
                 {
 
                     return null;
                 }
 
                 // Get reservations
-                List<Reservation> list = await AzureEasyTableManager.Instance.GetReservationForTodayByUserIdAsync(user.UserId);
+                List<Reservation> list = await AzureMobileServiceManager.Instance.GetReservationForTodayByUserIdAsync(App.GetUserId());
+
+                if( list == null) return null;
                 List<ReservationViewModel> listModel = new List<ReservationViewModel>();
 
                 foreach (var r in list)

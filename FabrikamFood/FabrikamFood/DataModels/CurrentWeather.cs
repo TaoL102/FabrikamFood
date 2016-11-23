@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FabrikamFood.DataModels
 {
-    class CurrentWeather
+    public class CurrentWeather
     {
         public class Coord
         {

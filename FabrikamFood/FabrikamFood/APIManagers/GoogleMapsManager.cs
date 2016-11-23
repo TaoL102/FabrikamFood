@@ -39,6 +39,7 @@ namespace FabrikamFood.APIManagers
         /// <returns></returns>
         public async Task<Position> GetCurrentPositionAsync()
         {
+            
             var locator = CrossGeolocator.Current;
 
             locator.DesiredAccuracy = 100; //100 is new default
@@ -57,7 +58,7 @@ namespace FabrikamFood.APIManagers
         /// <returns></returns>
         public async Task<Restaurant> GetNearestRestaurantAsync(List<Restaurant> restaurantList)
         {
-
+         
             // Get current position
             Position curPos = await GetCurrentPositionAsync();
 

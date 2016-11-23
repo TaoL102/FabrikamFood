@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace FabrikamFood.DataModels
 {
-    class Coupon
+    public class Coupon
     {
         [JsonProperty(PropertyName = "Id")]
         public string ID { get; set; }

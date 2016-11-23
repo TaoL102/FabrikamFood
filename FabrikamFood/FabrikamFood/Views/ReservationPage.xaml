@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FabrikamFood.Views.ReservationPage"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              >
   <ContentPage.Content>
+    <ScrollView>
+      <StackLayout VerticalOptions ="FillAndExpand" Orientation = "Vertical">
     <Grid BackgroundColor="#f7f6f6" Padding="2" >
       <Frame  OutlineColor="Black" HasShadow="True" Padding="0" BackgroundColor="White" VerticalOptions="CenterAndExpand">
         <StackLayout >
@@ -54,6 +57,61 @@
         </StackLayout>
       </Frame>
     </Grid>
+
+      <!--Reservation Start-->
+      <StackLayout VerticalOptions ="FillAndExpand" Orientation = "Vertical">
+        <Label Margin="15,15,15,0" Text="Today's Reservation" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
+        <!--<Label  Margin="15,0,15,0" Text="Based on your history orders" FontSize="Small" TextColor="Black"></Label>-->
+        <ListView x:Name="ListView_Reservations"   SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="180" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
+          <ListView.ItemTemplate>
+            <DataTemplate>
+              <ViewCell>
+                <Grid BackgroundColor="#eee"
+                   >
+                  <Grid>
+
+                    <ffimageloading:CachedImage
+                      Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                      DownsampleToViewSize = "true"
+                      Source = "couponbg_sample.png">
+                    </ffimageloading:CachedImage>
+                    <StackLayout>
+                      <Label  Text="{Binding RestaurantName}"  FontSize="15" TextColor="White"/>
+                      <Label  Text="{Binding RestaurantAddress}"  FontSize="Small" TextColor="White"/>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition></ColumnDefinition>
+                          <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <ffimageloading:CachedImage
+                       Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                       DownsampleToViewSize = "true"
+                       Source = "icon.png">
+                        </ffimageloading:CachedImage>
+                        <Label  Text="{Binding Time}"  FontSize="Small" TextColor="White"/>
+                      </Grid>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition></ColumnDefinition>
+                          <ColumnDefinition></ColumnDefinition>
+                          <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"  Text="CALL" BackgroundColor="Green" FontSize="Small" TextColor="White"/>
+                        <Button  Grid.Column="1"  Text="Uber" BackgroundColor="Black" FontSize="Small" TextColor="White"/>
+                        <Button  Grid.Column="2"  Text="Map" BackgroundColor="Red" FontSize="Small" TextColor="White"/>
+                      </Grid>
+                    </StackLayout>
+                  </Grid>
+                </Grid>
+              </ViewCell>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+        </ListView>
+      </StackLayout>
+
+      <!--Reservation End-->
+        </StackLayout >
+      </ScrollView>
   </ContentPage.Content>
 
 </ContentPage>

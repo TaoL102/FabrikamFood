@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FabrikamFood.ViewModels
 {
-    class GoogleMapsDistance
+    public class GoogleMapsDistance
     {
         public class Distance
         {
