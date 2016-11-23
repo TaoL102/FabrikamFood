@@ -6,6 +6,7 @@
                xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              xmlns:common="clr-namespace:UXDivers.Gorilla;assembly=UXDivers.Gorilla.Common"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:templates="clr-namespace:FabrikamFood.Views.Template;assembly=FabrikamFood"
             >
   <!--Resource Start-->
   <ContentPage.Resources>
@@ -32,69 +33,31 @@
 
 
   <ContentPage.Content>
-    <Grid>
-
+    <Grid  BackgroundColor="#dcdee3">
       <ScrollView>
-        <StackLayout  BackgroundColor="Transparent" Margin="10">
+        <StackLayout  >
+
           <!--Greeting Start-->
-          <Grid > 
+          <Grid Margin="0,20,0,0" Padding="10" BackgroundColor="White">
             <Grid.ColumnDefinitions>
               <ColumnDefinition  ></ColumnDefinition >
               <ColumnDefinition  ></ColumnDefinition >
               <ColumnDefinition  ></ColumnDefinition >
             </Grid.ColumnDefinitions>
-            <Grid Grid.ColumnSpan="3" BackgroundColor="Gray" Opacity="0.5"></Grid>
-            <Label x:Name="Lbl_Greeting" Grid.Column="0"  Margin="15" Text="" FontSize="Small" TextColor="White"></Label>
-            <Image  x:Name="Img_Weather"  Grid.Column="1" Margin="15" Source=""></Image>
-            <Label  x:Name="Lbl_Weather"  Grid.Column="2" Margin="15" Text=""  FontSize="Small"  TextColor="White"></Label>
+            <Label x:Name="Lbl_Greeting" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"  Text="Good Morning,Tao!" FontSize="Small" TextColor="Black"></Label>
+            <Image  x:Name="Img_Weather"  Grid.Column="1" Source=""></Image>
+            <Label  x:Name="Lbl_Weather"  Grid.Column="2"  VerticalTextAlignment="Center" HorizontalTextAlignment="End"  Text=""  FontSize="Small"  TextColor="Black"></Label>
           </Grid>
           <!--Greeting End-->
-          
-           <!--Today Reservation Start-->
-          <StackLayout >
-            <Label Margin="15,15,15,0" Text="Today's Reservation" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
-            <!--<Label  Margin="15,0,15,0" Text="Based on your history orders" FontSize="Small" TextColor="Black"></Label>-->
-            <ListView x:Name="ListView_Reservations"   SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="150" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
+
+          <!--Today Reservation Start-->
+          <StackLayout  Margin="0,20,0,0" Padding="10" BackgroundColor="White">
+            <Label Text="Reservation Today" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
+            <ListView x:Name="ListView_Reservations"   SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="160" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
               <ListView.ItemTemplate>
                 <DataTemplate>
                   <ViewCell>
-                    <StackLayout BackgroundColor="#eee"
-                       Orientation="Vertical">
-                      <Grid>
-                        
-                        <ffimageloading:CachedImage   
-                          Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                          DownsampleToViewSize = "true"
-                          Source = "couponbg_sample.png">
-                        </ffimageloading:CachedImage>
-                        <StackLayout>
-                        <Label  Text="{Binding RestaurantName}"  FontSize="15" TextColor="White"/>
-                        <Label  Text="{Binding RestaurantAddress}"  FontSize="Small" TextColor="White"/>
-                          <Grid>
-                            <Grid.ColumnDefinitions>
-                              <ColumnDefinition></ColumnDefinition>
-                              <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                           <ffimageloading:CachedImage   
-                          Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                          DownsampleToViewSize = "true"
-                          Source = "icon.png">
-                        </ffimageloading:CachedImage>
-                            <Label  Text="{Binding Time}"  FontSize="Small" TextColor="White"/>
-                          </Grid>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                              <ColumnDefinition></ColumnDefinition>
-                              <ColumnDefinition></ColumnDefinition>
-                              <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0"  Text="CALL" BackgroundColor="Green" FontSize="Small" TextColor="White"/>
-                            <Button  Grid.Column="1"  Text="Uber" BackgroundColor="Black" FontSize="Small" TextColor="White"/>
-                            <Button  Grid.Column="2"  Text="Map" BackgroundColor="Red" FontSize="Small" TextColor="White"/>
-                          </Grid>
-                          </StackLayout>
-                      </Grid>
-                    </StackLayout>
+                    <templates:ReservationTemplate></templates:ReservationTemplate>
                   </ViewCell>
                 </DataTemplate>
               </ListView.ItemTemplate>
@@ -104,37 +67,70 @@
           <!--Today Reservation End-->
 
           <!--Map Start-->
-          <StackLayout >
-            <Label Margin="15,15,15,0" Text="Nearest Fabrikam" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
-            <Label x:Name="MapRestaurantName" Margin="15,0,15,0" Text="Goole map will guide you to the nearest Fabrikam" FontSize="Small" TextColor="Black"></Label>
-            <StackLayout BackgroundColor="White">
-              <maps:Map HeightRequest="200"
-              x:Name="NearestRestaurantMap"
-              IsShowingUser="true"  />
-              <Label x:Name="MapRestaurantNav" Margin="15,0,15,0" Text="Goole map will guide you to the nearest Fabrikam" FontSize="Small" TextColor="Black"></Label>
-              <Button x:Name="NavBtn" Text="NAVIGATE" TextColor="Black" BackgroundColor="White" Clicked="NavBtn_Clicked"></Button>
-</StackLayout>
+          <StackLayout   Margin="0,20,0,0" Padding="10" BackgroundColor="White">
+            <Label Text="Nearby Fabrikam" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
+            <Label x:Name="MapRestaurantName" Text="Goole map will guide you to the nearest Fabrikam" FontSize="Small" TextColor="Black"></Label>
+            <StackLayout>
+              <maps:Map HeightRequest="200"  x:Name="NearestRestaurantMap"  IsShowingUser="true"  />
+              <Grid>
+                <Button Grid.Row="0" TextColor="Black" BackgroundColor="Black" Clicked="Btn_Nav_Clicked"></Button>
+                <Grid  Grid.Row="0" Margin="20,0,20,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" ></ColumnDefinition>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                  </Grid.ColumnDefinitions>
+                  <Label Grid.Column="0" Text="Ride with Uber" VerticalTextAlignment="Center" TextColor="White" FontSize="16"></Label>
+                  <Grid  Grid.Column="1" >
+                    <Grid.RowDefinitions>
+                      <RowDefinition ></RowDefinition>
+                      <RowDefinition ></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" x:Name="Btn_Uber_Time" VerticalTextAlignment="End" HorizontalTextAlignment="End" Text="~ MIN AWAY" TextColor="White"  FontSize="Micro"></Label>
+                    <Label Grid.Row="1" x:Name="Btn_Uber_Price" VerticalTextAlignment="Start" HorizontalTextAlignment="End"  Text="~ for UberX" TextColor="White"  FontSize="Micro"></Label>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+              <Grid>
+                <Button Grid.Row="0" TextColor="Black" BackgroundColor="#cf4332" Clicked="Btn_Nav_Clicked"></Button>
+                <Grid  Grid.Row="0" Margin="20,0,20,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" ></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                  </Grid.ColumnDefinitions>
+                  <Label Grid.Column="0" Text="Navigation" VerticalTextAlignment="Center" TextColor="White" FontSize="16"></Label>
+                  <Grid  Grid.Column="1" >
+                    <Grid.RowDefinitions>
+                      <RowDefinition></RowDefinition>
+                      <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" x:Name="Btn_Nav_Time" VerticalTextAlignment="End" HorizontalTextAlignment="End" Text="~ MIN" TextColor="White"  FontSize="Micro"></Label>
+                    <Label Grid.Row="1" x:Name="Btn_Nav_Distance" VerticalTextAlignment="Start" HorizontalTextAlignment="End"  Text="~ KM" TextColor="White"  FontSize="Micro"></Label>
+                  </Grid>
+                </Grid>
+              </Grid>
+
+            </StackLayout>
 
           </StackLayout>
           <!--Map End-->
 
           <!--Coupon Start-->
-          <StackLayout >
-            <Label Margin="15,15,15,0" Text="Coupon" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
-            <Label  Margin="15,0,15,0" Text="We found these coupons for you" FontSize="Small" TextColor="Black"></Label>
+          <StackLayout  Margin="0,20,0,0" Padding="10" BackgroundColor="White">
+            <Label  Text="Coupon" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
+            <Label  Text="We found these coupons for you" FontSize="Small" TextColor="Black"></Label>
             <ListView x:Name="ListView_Coupons"  SeparatorVisibility="None"  HasUnevenRows = "False" RowHeight="130" IsPullToRefreshEnabled = "true"  CachingStrategy="RecycleElement" >
               <ListView.ItemTemplate>
                 <DataTemplate>
                   <ViewCell>
                     <StackLayout Orientation="Vertical">
-                      <Grid  Margin="0,0,0,10">
-                        <ActivityIndicator x:Name="UploadingIndicator" Color="Red" IsRunning="false" Grid.Row="0" />
-                        <ffimageloading:CachedImage   
+                      <Grid Padding="0,10,0,0"  BackgroundColor="White">
+                        <ffimageloading:CachedImage
                           Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                           DownsampleToViewSize = "true"
                           Source = "couponbg_sample.png">
                         </ffimageloading:CachedImage>
-                        <Grid Grid.Row="0"   Padding="10">
+                        <Grid Grid.Row="0"  Padding="10">
                           <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
@@ -143,7 +139,7 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                           </Grid.ColumnDefinitions>
-                          <Label Margin="0,0,10,0" Grid.Row="1" Grid.Column="1" Text="{Binding Discount, StringFormat='{0:0} % OFF'}"  FontSize="20" TextColor="White" HorizontalTextAlignment="End" VerticalTextAlignment="Center"/>
+                          <Label Margin="0,0,10,0" Grid.Row="1" Grid.Column="1" Text="{Binding Discount, StringFormat='{0:0} % OFF'}"  FontSize="20" TextColor="White" HorizontalTextAlignment="End" />
                           <Label  Margin="10,0,0,0" Grid.Row="1" Text="{Binding CategoryName}"  FontSize="20" TextColor="White"/>
                           <Label Margin="10,0,0,0" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Code, StringFormat='Code #: {0:N}'}"  FontSize="Small" TextColor="White"/>
                         </Grid>

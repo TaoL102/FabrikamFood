@@ -16,5 +16,7 @@ namespace FabrikamFood.ViewModels
         public Position RestaurantPosition { get; set; }
         public string Date { get; set; }
         public string Time { get; set; }
+
+
     }
 }

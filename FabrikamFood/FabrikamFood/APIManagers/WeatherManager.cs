@@ -29,7 +29,7 @@ namespace FabrikamFood.APIManagers
         {
             
             // API call parameters
-            string apiKey = "appid=6a9c4821930e1eeb29ab3511220b6102";
+            string apiKey = "appid="+Constants.WEATHER_API_KEY;
             string url = "http://api.openweathermap.org/data/2.5/weather?";
             string pos = "lat=" + currentPosition.Latitude + "&lon=" + currentPosition.Longitude;
             string unit = "units=metric";
@@ -53,7 +53,7 @@ namespace FabrikamFood.APIManagers
             // text
             Dictionary<string, string> dic = new Dictionary<string, string>()
             {
-                { "CityAndTemp",$"{cityName}\t{temp}"},
+                { "CityAndTemp",$"{cityName}  {temp}"},
                 { "IconURL","http://openweathermap.org/img/w/" + icon + ".png"}
             };
 

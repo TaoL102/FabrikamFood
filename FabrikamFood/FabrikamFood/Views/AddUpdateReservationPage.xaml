@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FabrikamFood.Views.AddUpdateReservationPage"
+                  xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             >
+  <ContentPage.Content>
+    <Grid  >
+      <ScrollView>
+        <StackLayout  >
+          <Grid BackgroundColor="#dcdee3" Padding="10">
+            <Label  Text="Make a reservation"  FontSize="Micro" TextColor="Black"  VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+          </Grid>
+
+          <!--Add or Update Reservation Start-->
+          <StackLayout  Margin="0,20,0,0" Padding="10" BackgroundColor="White">
+            <Label Text="Make a reservation" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
+
+            <Grid Padding="10,0,0,10">
+              <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+              </Grid.ColumnDefinitions>
+
+              <Label Grid.Row="0" Grid.Column="0"  Text="Date" FontSize="Small" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" ></Label>
+              <DatePicker x:Name="DatePicker" Grid.Row="0" Grid.Column="1" VerticalOptions="CenterAndExpand" Date="{x:Static sys:DateTime.Now}">
+                <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
+                <DatePicker.MinimumDate>
+                  <sys:DateTime x:FactoryMethod="Parse">
+                    <x:Arguments>
+                      <x:String>Jan 1 2016</x:String>
+                    </x:Arguments>
+                  </sys:DateTime>
+                </DatePicker.MinimumDate>
+                <DatePicker.MaximumDate>
+                  <sys:DateTime x:FactoryMethod="Parse">
+                    <x:Arguments>
+                      <x:String>Dec 31 2050</x:String>
+                    </x:Arguments>
+                  </sys:DateTime>
+                </DatePicker.MaximumDate>
+              </DatePicker>
+              <Label Grid.Row="1" Grid.Column="0" Text="Time"  FontSize="Small" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" ></Label>
+              <TimePicker  x:Name="TimePicker" Grid.Row="1" Grid.Column="1" VerticalOptions="CenterAndExpand" Format="HH:mm" >
+              </TimePicker>
+              <Label Grid.Row="2" Grid.Column="0" Text="Restaurant"  FontSize="Small" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" ></Label>
+              <Picker  Grid.Row="2" Grid.Column="1"  x:Name="Picker_Restaurant" Title="Restaurant"> </Picker>
+              <Button  Grid.Row="3" Grid.ColumnSpan="2" x:Name="Btn_Confirm" Text="Confirm" TextColor="White" BackgroundColor="#2196F3" Clicked="Btn_Confirm_Clicked"></Button>
+
+            </Grid>
+          </StackLayout>
+
+          <!--Add or Update Reservation End-->
+          
+
+         
+            </StackLayout  >
+      </ScrollView>
+    </Grid>
+  </ContentPage.Content>
+</ContentPage>

@@ -69,7 +69,7 @@ namespace FabrikamFood.APIManagers
             }
 
             // API call parameters
-            string apiKey = "key=AIzaSyAGDpbFjrhzH7NPQ7Omb7u9uFbFVkneXcQ";
+            string apiKey = "key="+Constants.GOOGLE_MAPS_API_KEY;
             string url = "https://maps.googleapis.com/maps/api/distancematrix/json?";
             string unit = "units=metric";
             string destinations = String.Format("destinations={0}", string.Join("|", originsArray));

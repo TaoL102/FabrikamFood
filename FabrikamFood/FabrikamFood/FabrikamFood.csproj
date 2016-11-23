@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="APIManagers\AzureMobileServiceManager.cs" />
     <Compile Include="APIManagers\GoogleMapsManager.cs" />
+    <Compile Include="APIManagers\UberManager.cs" />
     <Compile Include="APIManagers\WeatherManager.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -48,8 +49,14 @@
     <Compile Include="DataModels\Reservation.cs" />
     <Compile Include="DataModels\Restaurant.cs" />
     <Compile Include="DataModels\GoogleMapsDistance.cs" />
+    <Compile Include="DataModels\UberEstimate.cs" />
     <Compile Include="ViewModels\MenuPageViewModel.cs" />
     <Compile Include="ViewModels\ReservationViewModel.cs" />
+    <Compile Include="Views\AddUpdateReservationPage.xaml.cs">
+      <DependentUpon>AddUpdateReservationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomControls\ImageButton.cs" />
+    <Compile Include="Views\CustomControls\ImageTextButton.cs" />
     <Compile Include="Views\DishMenuPage.xaml.cs">
       <DependentUpon>DishMenuPage.xaml</DependentUpon>
     </Compile>
@@ -71,6 +78,9 @@
     </Compile>
     <Compile Include="Views\RootPage.xaml.cs">
       <DependentUpon>RootPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Templates\ReservationTemplate.xaml.cs">
+      <DependentUpon>ReservationTemplate.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +213,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\ReservationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Templates\ReservationTemplate.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\AddUpdateReservationPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

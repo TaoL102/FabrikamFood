@@ -4,110 +4,33 @@
              x:Class="FabrikamFood.Views.ReservationPage"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
               xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+              xmlns:templates="clr-namespace:FabrikamFood.Views.Template;assembly=FabrikamFood"
              >
   <ContentPage.Content>
     <ScrollView>
-      <StackLayout VerticalOptions ="FillAndExpand" Orientation = "Vertical">
-    <Grid BackgroundColor="#f7f6f6" Padding="2" >
-      <Frame  OutlineColor="Black" HasShadow="True" Padding="0" BackgroundColor="White" VerticalOptions="CenterAndExpand">
-        <StackLayout >
-          <Grid Padding="15"  BackgroundColor="White" >
-            <Label Text="Make a reservation" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
-          </Grid>
-          <Label x:Name="MapRestaurantName" Margin="15,0,15,0" Text="Please choose date time and restaurant:" FontSize="Small" TextColor="Black"></Label>
-
-          <Grid Padding="15">
-            <Grid.RowDefinitions>
-              <RowDefinition></RowDefinition>
-              <RowDefinition></RowDefinition>
-              <RowDefinition></RowDefinition>
-              <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition></ColumnDefinition>
-              <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-
-            <Label Grid.Row="0" Grid.Column="0" Text="Date" FontSize="20" TextColor="#212121"></Label>
-            <DatePicker x:Name="DatePicker" Grid.Row="0" Grid.Column="1" VerticalOptions="CenterAndExpand" Date="{x:Static sys:DateTime.Now}">
-              <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
-              <DatePicker.MinimumDate>
-                <sys:DateTime x:FactoryMethod="Parse">
-                  <x:Arguments>
-                    <x:String>Jan 1 2000</x:String>
-                  </x:Arguments>
-                </sys:DateTime>
-              </DatePicker.MinimumDate>
-              <DatePicker.MaximumDate>
-                <sys:DateTime x:FactoryMethod="Parse">
-                  <x:Arguments>
-                    <x:String>Dec 31 2050</x:String>
-                  </x:Arguments>
-                </sys:DateTime>
-              </DatePicker.MaximumDate>
-            </DatePicker>
-            <Label Grid.Row="1" Grid.Column="0" Text="Time"  FontSize="20" TextColor="#212121"></Label>
-            <TimePicker  x:Name="TimePicker" Grid.Row="1" Grid.Column="1" VerticalOptions="CenterAndExpand" Format="HH:mm" >
-            </TimePicker>
-            <Label Grid.Row="2" Grid.Column="0" Text="Restaurant"  FontSize="20" TextColor="#212121"></Label>
-            <Picker  Grid.Row="2" Grid.Column="1"  x:Name="Picker_Restaurant" Title="Restaurant"> </Picker>
-            <Button  Grid.Row="3" Grid.ColumnSpan="2" x:Name="Btn_Confirm" Text="Confirm" TextColor="White" BackgroundColor="#2196F3" Clicked="Btn_Confirm_Clicked"></Button>
-
-          </Grid>
-        </StackLayout>
-      </Frame>
-    </Grid>
+      <StackLayout >
+        
+        <!--New Reservation Button Start-->
+        <!--<Grid Margin="0,20,0,0" Padding="10" >
+          <Button Text="Make a reservation" BackgroundColor="#2196F3"></Button>
+        </Grid>-->
+        <!--New Reservation Button End-->
+        
+   
 
       <!--Reservation Start-->
-      <StackLayout VerticalOptions ="FillAndExpand" Orientation = "Vertical">
-        <Label Margin="15,15,15,0" Text="Today's Reservation" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
-        <!--<Label  Margin="15,0,15,0" Text="Based on your history orders" FontSize="Small" TextColor="Black"></Label>-->
-        <ListView x:Name="ListView_Reservations"   SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="180" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
-          <ListView.ItemTemplate>
-            <DataTemplate>
-              <ViewCell>
-                <Grid BackgroundColor="#eee"
-                   >
-                  <Grid>
-
-                    <ffimageloading:CachedImage
-                      Grid.Row="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                      DownsampleToViewSize = "true"
-                      Source = "couponbg_sample.png">
-                    </ffimageloading:CachedImage>
-                    <StackLayout>
-                      <Label  Text="{Binding RestaurantName}"  FontSize="15" TextColor="White"/>
-                      <Label  Text="{Binding RestaurantAddress}"  FontSize="Small" TextColor="White"/>
-                      <Grid>
-                        <Grid.ColumnDefinitions>
-                          <ColumnDefinition></ColumnDefinition>
-                          <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <ffimageloading:CachedImage
-                       Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                       DownsampleToViewSize = "true"
-                       Source = "icon.png">
-                        </ffimageloading:CachedImage>
-                        <Label  Text="{Binding Time}"  FontSize="Small" TextColor="White"/>
-                      </Grid>
-                      <Grid>
-                        <Grid.ColumnDefinitions>
-                          <ColumnDefinition></ColumnDefinition>
-                          <ColumnDefinition></ColumnDefinition>
-                          <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0"  Text="CALL" BackgroundColor="Green" FontSize="Small" TextColor="White"/>
-                        <Button  Grid.Column="1"  Text="Uber" BackgroundColor="Black" FontSize="Small" TextColor="White"/>
-                        <Button  Grid.Column="2"  Text="Map" BackgroundColor="Red" FontSize="Small" TextColor="White"/>
-                      </Grid>
-                    </StackLayout>
-                  </Grid>
-                </Grid>
-              </ViewCell>
-            </DataTemplate>
-          </ListView.ItemTemplate>
-        </ListView>
-      </StackLayout>
+        <StackLayout  Margin="0,20,0,0" Padding="10" BackgroundColor="White">
+          <Label Text="Reservations" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
+          <ListView x:Name="ListView_Reservations"   SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="160" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <ViewCell>
+                  <templates:ReservationTemplate></templates:ReservationTemplate>
+                </ViewCell>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
+        </StackLayout>
 
       <!--Reservation End-->
         </StackLayout >

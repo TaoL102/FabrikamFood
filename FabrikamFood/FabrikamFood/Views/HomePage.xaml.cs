@@ -38,7 +38,9 @@ namespace FabrikamFood.Views
             await AzureMobileServiceManager.Instance.SyncAsync();
 
             // Set listview_restaurants datasource
-            ListView_Reservations.ItemsSource = await GetReservationsForToday();
+            var reservationList=await GetReservationsForToday();
+            ListView_Reservations.ItemsSource = reservationList;
+            ListView_Reservations.HeightRequest = reservationList.Count()* (Constants.LISTVIEW_CELL_HEIGHT_RESERVATION+Constants.LISTVIEW_CELL_SPACING);
 
             // Get restaurant list
             restaurantList = App.RestaurantList;
@@ -60,8 +62,9 @@ namespace FabrikamFood.Views
             SetWeatherText(currentPosition);
 
             // Set listview_coupons datasource
-            ListView_Coupons.ItemsSource = await AzureMobileServiceManager.Instance.GetCouponsByApplicableRestaurantIdAsync(nearestRestaurant.ID);
-
+             var couponList= await AzureMobileServiceManager.Instance.GetCouponsByApplicableRestaurantIdAsync(nearestRestaurant.ID);
+            ListView_Coupons.ItemsSource = couponList;
+            ListView_Coupons.HeightRequest = couponList.Count * (Constants.LISTVIEW_CELL_HEIGHT_COUPON + Constants.LISTVIEW_CELL_SPACING);
 
         }
 
@@ -91,17 +94,22 @@ namespace FabrikamFood.Views
 
        
 
-        private void SetMapText(Restaurant restaurant, ViewModels.GoogleMapsDistance.Element minDistanceElement)
+        private async void SetMapText(Restaurant restaurant, ViewModels.GoogleMapsDistance.Element minDistanceElement)
         {
             // Get distance and duration
             string distance = minDistanceElement.distance.text;
             string duration = minDistanceElement.duration.text;
+            string uberPrice = await UberManager.Instance.GetEstimatedPrice(currentPosition,new Position(restaurant.Latitude,restaurant.Longitude));
+            string uberTime = await UberManager.Instance.GetEstimatedTime(currentPosition, new Position(restaurant.Latitude, restaurant.Longitude));
 
             MapRestaurantName.Text = restaurant.Name;
-            MapRestaurantNav.Text = String.Format("Drive: {0}({1})", distance, duration);
+            Btn_Uber_Price.Text = uberPrice;
+            Btn_Uber_Time.Text = uberTime;
+            Btn_Nav_Distance.Text = distance;
+            Btn_Nav_Time.Text = duration;
         }
 
-        private void NavBtn_Clicked(object sender, EventArgs e)
+        private void Btn_Nav_Clicked(object sender, EventArgs e)
         {
             // Get pos string
             string pos = nearestRestaurant.Latitude + "," + nearestRestaurant.Longitude;
@@ -124,6 +132,8 @@ namespace FabrikamFood.Views
                     break;
             }
         }
+
+      
 
         private async void SetWeatherText(Position currentPosition)
         {

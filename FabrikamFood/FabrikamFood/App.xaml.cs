@@ -15,13 +15,23 @@ namespace FabrikamFood
 {
     public static class Constants
     {
-        // mobile services and gateway URLs.
+        #region API key and gateway URLs
         public static string APPLICATION_URL = "https://msafabrikamfood.azurewebsites.net";
+        public static string WEATHER_API_KEY = "6a9c4821930e1eeb29ab3511220b6102";
+        public static string GOOGLE_MAPS_API_KEY = "AIzaSyAGDpbFjrhzH7NPQ7Omb7u9uFbFVkneXcQ";
+        public static string UBER_SERVER_TOKEN = "t-Fz6_aiHMhOvlc73xCN1Ft93-BL8OgHzq_abh-P";
+        public static string UBER_CLIENT_ID = "blAhtOJ_kNwjrPjSL7KC-rZanl5T-TV2";
+        #endregion
+
+        #region MISC
+        public static string MISC_UBERX_GUID = "a0eb34b7-c910-4fc7-8582-8180b9378349";
+        #endregion
 
         #region DimentionValues
 
-        public static int  LISTVIEW_CELL_HEIGHT_RESERVATION = 180;
+        public static int  LISTVIEW_CELL_HEIGHT_RESERVATION = 160;
         public static int LISTVIEW_CELL_HEIGHT_COUPON = 130;
+        public static int LISTVIEW_CELL_SPACING = 10;
 
         #endregion
     }
