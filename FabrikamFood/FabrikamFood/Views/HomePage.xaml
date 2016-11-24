@@ -51,7 +51,7 @@
           <!--Greeting End-->
 
           <!--Today Reservation Start-->
-          <StackLayout  Margin="0,20,0,0" Padding="10" BackgroundColor="White">
+          <StackLayout x:Name="Frame_Reservation_Today" IsVisible="False" Margin="0,20,0,0" Padding="10" BackgroundColor="White">
             <Label Text="Reservation Today" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
             <ListView x:Name="ListView_Reservations"   SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="160" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
               <ListView.ItemTemplate>
@@ -116,7 +116,7 @@
           <!--Map End-->
 
           <!--Coupon Start-->
-          <StackLayout  Margin="0,20,0,0" Padding="10" BackgroundColor="White">
+          <StackLayout  x:Name="Frame_Coupon" IsVisible="False" Margin="0,20,0,0" Padding="10" BackgroundColor="White">
             <Label  Text="Coupon" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
             <Label  Text="We found these coupons for you" FontSize="Small" TextColor="Black"></Label>
             <ListView x:Name="ListView_Coupons"  SeparatorVisibility="None"  HasUnevenRows = "False" RowHeight="130" IsPullToRefreshEnabled = "true"  CachingStrategy="RecycleElement" >

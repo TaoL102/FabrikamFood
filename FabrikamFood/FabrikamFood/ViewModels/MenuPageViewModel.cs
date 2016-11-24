@@ -54,6 +54,8 @@ namespace FabrikamFood.ViewModels
             if (loggedOut)
             {
                 App.RootPage.Detail = new NavigationPage(new LoginPage());
+                App.RootPage.Master.IsVisible = false;
+
             }
         
         }

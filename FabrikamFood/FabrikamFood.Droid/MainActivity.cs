@@ -70,7 +70,7 @@ namespace FabrikamFood.Droid
 
                 if (user != null)
                 {
-                                        Settings.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
+                   Settings.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
                     Settings.UserId = user?.UserId ?? string.Empty;
 
                     message = string.Format("you are now signed-in as {0}.",
@@ -98,6 +98,7 @@ namespace FabrikamFood.Droid
                 if (user != null)
                 {
                     CookieManager.Instance.RemoveAllCookie();
+                    Settings.UserId = null;Settings.AuthToken = null;
                     await AzureMobileServiceManager.Instance.CurrentClient.LogoutAsync();
                     CreateAndShowDialog(string.Format("You are now logged out - {0}", user.UserId), "Logged out!");
                 }

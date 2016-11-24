@@ -12,14 +12,14 @@ namespace FabrikamFood.Helpers
         public static async Task<bool> PopUpYesOrNoDialogue(string title,string message)
         {
             var page = new ContentPage();
-            return  await page.DisplayAlert(title, message, "Accept", "Cancel");
+            return  await page.DisplayAlert(title, message, "YES", "NO");
 
         }
 
         public static async void PopUpYesDialogue(string title, string message)
         {
             var page = new ContentPage();
-            await page.DisplayAlert(title, message, "Accept");
+            await page.DisplayAlert(title, message, "YES");
 
         }
 

@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using System.Net;
 using Xamarin.Forms;
-using System.Net.Http;
-using static FabrikamFood.ViewModels.GoogleMapsDistance;
 using Xamarin.Forms.Maps;
-using Android.Locations;
-using Plugin.Geolocator;
 using FabrikamFood.DataModels;
 using FabrikamFood.APIManagers;
-using System.Globalization;
 using FabrikamFood.ViewModels;
 using FabrikamFood.Helpers;
 
@@ -25,67 +18,72 @@ namespace FabrikamFood.Views
         private List<Restaurant> restaurantList;
         private Restaurant nearestRestaurant;
         private ViewModels.GoogleMapsDistance.Element nearestMapElement;
-        private Position currentPosition;
 
         public HomePage()
         {
             InitializeComponent();
-
             Init();
-
-
-            
         }
 
         private async void Init()
         {
-       
+
             // Offline data sync
-            await AzureMobileServiceManager.Instance.SyncAsync();
+            Task.Run(async () => { await AzureMobileServiceManager.Instance.SyncAsync(); });
+
+            // Set weather text
+            SetWeatherText();
 
             // Get restaurant list
-            if(DataHelper.GetFromPropertyDictionary("RestaurantList")==null)
+            if (DataHelper.GetFromPropertyDictionary("RestaurantList") == null)
             {
-restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
+                restaurantList = await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
                 DataHelper.SaveToPropertyDictionary("RestaurantList", restaurantList);
             }
             else
             {
-                restaurantList = await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
-                DataHelper.SaveToPropertyDictionary("RestaurantList", restaurantList);
                 restaurantList = DataHelper.GetFromPropertyDictionary("RestaurantList") as List<Restaurant>;
             }
-            
-
-            // Set listview_restaurants datasource
-            var reservationList = await GetReservationsForToday();
-            ListView_Reservations.ItemsSource = reservationList;
-            ListView_Reservations.HeightRequest = reservationList.Count() * (Constants.LISTVIEW_CELL_HEIGHT_RESERVATION + Constants.LISTVIEW_CELL_SPACING);
 
             // Get nearest restaurant and pin to map
             nearestRestaurant = await GoogleMapsManager.Instance.GetNearestRestaurantAsync(restaurantList);
             PinToMap(nearestRestaurant);
 
-            // Get nearest distance element
-            nearestMapElement = GoogleMapsManager.Instance.GetMinDistanceElement();
-
-            // Get current position
-            currentPosition = await GoogleMapsManager.Instance.GetCurrentPositionAsync();
-
             // Set map text
-            SetMapText(nearestRestaurant, nearestMapElement);
+            SetMapText(nearestRestaurant);
 
-            // Set weather text
-            SetWeatherText(currentPosition);
+            // Set listview_restaurants datasource
+            SetListView_Reservations();
 
             // Set listview_coupons datasource
-             var couponList= await AzureMobileServiceManager.Instance.GetCouponsByApplicableRestaurantIdAsync(nearestRestaurant.ID);
-            ListView_Coupons.ItemsSource = couponList;
-            ListView_Coupons.HeightRequest = couponList.Count * (Constants.LISTVIEW_CELL_HEIGHT_COUPON + Constants.LISTVIEW_CELL_SPACING);
-
+            SetListView_Coupons();
 
         }
 
+        private async void SetListView_Reservations()
+        {
+            var reservationList=new List<ReservationViewModel>();
+            await Task.Run(async () => {
+                reservationList= await GetReservationsForToday();
+            });
+            if (reservationList.Count <= 0) return;
+            ListView_Reservations.ItemsSource = reservationList;
+            ListView_Reservations.HeightRequest = reservationList.Count() * (Constants.LISTVIEW_CELL_HEIGHT_RESERVATION + Constants.LISTVIEW_CELL_SPACING);
+            Frame_Reservation_Today.IsVisible = true;
+        }
+
+        private async void SetListView_Coupons()
+        {
+            var couponList = new List<Coupon>();
+            await Task.Run(async () => {
+                 couponList = await AzureMobileServiceManager.Instance.GetCouponsByApplicableRestaurantIdAsync(nearestRestaurant.ID);
+            });
+            if (couponList.Count <= 0) return;
+
+ListView_Coupons.ItemsSource = couponList;
+            ListView_Coupons.HeightRequest = couponList.Count * (Constants.LISTVIEW_CELL_HEIGHT_COUPON + Constants.LISTVIEW_CELL_SPACING);
+            Frame_Coupon.IsVisible = true;
+        }
 
         private void PinToMap(Restaurant restaurant)
         {
@@ -110,15 +108,30 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
 
         }
 
-       
 
-        private async void SetMapText(Restaurant restaurant, ViewModels.GoogleMapsDistance.Element minDistanceElement)
+
+        private async void SetMapText(Restaurant restaurant)
         {
-            // Get distance and duration
-            string distance = minDistanceElement.distance.text;
-            string duration = minDistanceElement.duration.text;
-            string uberPrice = await UberManager.Instance.GetEstimatedPrice(currentPosition,new Position(restaurant.Latitude,restaurant.Longitude));
-            string uberTime = await UberManager.Instance.GetEstimatedTime(currentPosition, new Position(restaurant.Latitude, restaurant.Longitude));
+            string distance = "";
+            string duration = "";
+            string uberPrice = "";
+            string uberTime = "";
+
+            await Task.Run(async () =>
+            {
+                // Get current pos
+                var currentPosition = await GoogleMapsManager.Instance.GetCurrentPositionAsync();
+                // Get nearest distance element
+                var nearestMapElement = GoogleMapsManager.Instance.GetMinDistanceElement();
+
+                // Get distance and duration
+                distance = nearestMapElement.distance.text;
+                duration = nearestMapElement.duration.text;
+                uberPrice = await UberManager.Instance.GetEstimatedPrice(currentPosition, new Position(restaurant.Latitude, restaurant.Longitude));
+                uberTime = await UberManager.Instance.GetEstimatedTime(currentPosition, new Position(restaurant.Latitude, restaurant.Longitude));
+
+            });
+
 
             MapRestaurantName.Text = restaurant.Name;
             Btn_Uber_Price.Text = uberPrice;
@@ -134,7 +147,7 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
 
             //Reference: https://developer.xamarin.com/recipes/cross-platform/xamarin-forms/maps/map-navigation/
             switch (Device.OS)
-            {                
+            {
                 case TargetPlatform.iOS:
                     Device.OpenUri(
                       new Uri(string.Format("http://maps.apple.com/?q={0}", WebUtility.UrlEncode(pos))));
@@ -151,12 +164,22 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
             }
         }
 
-      
 
-        private async void SetWeatherText(Position currentPosition)
+
+        private async void SetWeatherText()
         {
-            // Get weather info
-            Dictionary<string, string>  dic=await WeatherManager.Instance.GetCurrentWeather(currentPosition);
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+
+            await Task.Run(async () =>
+            {
+                // Get current pos
+                var currentPosition = await GoogleMapsManager.Instance.GetCurrentPositionAsync();
+
+                // Get weather info
+                dic = await WeatherManager.Instance.GetCurrentWeather(currentPosition);
+            });
+
+
 
             // set text
             Lbl_Weather.Text = dic["CityAndTemp"];
@@ -177,7 +200,7 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
                 // Get reservations
                 List<Reservation> list = await AzureMobileServiceManager.Instance.GetReservationForTodayByUserIdAsync(Settings.UserId);
 
-                if( list == null) return new List<ReservationViewModel>();
+                if (list == null) return new List<ReservationViewModel>();
                 List<ReservationViewModel> listModel = new List<ReservationViewModel>();
 
                 foreach (var r in list)
@@ -202,16 +225,16 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
 
 
             }
-            catch (Exception )
+            catch (Exception)
             {
 
                 return new List<ReservationViewModel>();
             }
-           
 
 
 
-            
+
+
         }
     }
 }
