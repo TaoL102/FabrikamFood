@@ -7,10 +7,7 @@
   <ContentPage.Content>
     <Grid  >
       <ScrollView>
-        <StackLayout  >
-          <Grid BackgroundColor="#dcdee3" Padding="10">
-            <Label  Text="Make a reservation"  FontSize="Micro" TextColor="Black"  VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
-          </Grid>
+        <StackLayout  >         
 
           <!--Add or Update Reservation Start-->
           <StackLayout  Margin="0,20,0,0" Padding="10" BackgroundColor="White">
@@ -29,7 +26,7 @@
               </Grid.ColumnDefinitions>
 
               <Label Grid.Row="0" Grid.Column="0"  Text="Date" FontSize="Small" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" ></Label>
-              <DatePicker x:Name="DatePicker" Grid.Row="0" Grid.Column="1" VerticalOptions="CenterAndExpand" Date="{x:Static sys:DateTime.Now}">
+              <DatePicker x:Name="DatePicker" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Date="{x:Static sys:DateTime.Now}">
                 <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
                 <DatePicker.MinimumDate>
                   <sys:DateTime x:FactoryMethod="Parse">
@@ -47,11 +44,10 @@
                 </DatePicker.MaximumDate>
               </DatePicker>
               <Label Grid.Row="1" Grid.Column="0" Text="Time"  FontSize="Small" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" ></Label>
-              <TimePicker  x:Name="TimePicker" Grid.Row="1" Grid.Column="1" VerticalOptions="CenterAndExpand" Format="HH:mm" >
+              <TimePicker  x:Name="TimePicker" Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" Format="HH:mm" >
               </TimePicker>
               <Label Grid.Row="2" Grid.Column="0" Text="Restaurant"  FontSize="Small" TextColor="Black" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" ></Label>
-              <Picker  Grid.Row="2" Grid.Column="1"  x:Name="Picker_Restaurant" Title="Restaurant"> </Picker>
-              <Button  Grid.Row="3" Grid.ColumnSpan="2" x:Name="Btn_Confirm" Text="Confirm" TextColor="White" BackgroundColor="#2196F3" Clicked="Btn_Confirm_Clicked"></Button>
+              <Picker  Grid.Row="2" Grid.Column="1"  x:Name="Picker_Restaurant" Title="Restaurant" VerticalOptions="Center" HorizontalOptions="Start"> </Picker>
 
             </Grid>
           </StackLayout>

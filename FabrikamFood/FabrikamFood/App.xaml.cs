@@ -1,6 +1,7 @@
 ﻿
 using FabrikamFood.APIManagers;
 using FabrikamFood.DataModels;
+using FabrikamFood.Helpers;
 using FabrikamFood.Views;
 using Microsoft.WindowsAzure.MobileServices;
 using System;
@@ -29,7 +30,7 @@ namespace FabrikamFood
 
         #region DimentionValues
 
-        public static int  LISTVIEW_CELL_HEIGHT_RESERVATION = 160;
+        public static int LISTVIEW_CELL_HEIGHT_RESERVATION = 160;
         public static int LISTVIEW_CELL_HEIGHT_COUPON = 130;
         public static int LISTVIEW_CELL_SPACING = 10;
 
@@ -37,8 +38,8 @@ namespace FabrikamFood
     }
 
     public interface IAuthenticate
-        {
-            Task<bool> Authenticate(MobileServiceAuthenticationProvider authProvider);
+    {
+        Task<bool> Authenticate(MobileServiceAuthenticationProvider authProvider);
         Task<bool> LogoutAsync();
 
     }
@@ -49,13 +50,12 @@ namespace FabrikamFood
         public static NavigationPage NavigationPage { get; private set; }
         public static RootPage RootPage;
         public static IAuthenticate Authenticator { get; private set; }
-        public static List<Restaurant> RestaurantList { get; private set; }
         public static string UserID { get; set; }
 
         public static void Init(IAuthenticate authenticator)
         {
             Authenticator = authenticator;
-        }      
+        }
 
         public static bool MenuIsPresented
         {
@@ -71,11 +71,11 @@ namespace FabrikamFood
 
         public App()
         {
- var menuPage = new DrawerPage();
+            var menuPage = new DrawerPage();
             RootPage = new RootPage();
             RootPage.Master = menuPage;
 
-            if (App.GetUserId()==null)
+            if (!Settings.IsLoggedIn)
             {
                 NavigationPage = new NavigationPage(new LoginPage());
                 RootPage.Master.IsVisible = false;
@@ -84,12 +84,12 @@ namespace FabrikamFood
             {
                 NavigationPage = new NavigationPage(new HomePage());
             }
-           
+
             RootPage.Detail = NavigationPage;
             MainPage = RootPage;
 
-            // Initialize 
-            InitRestaurantList();
+
+
         }
 
 
@@ -108,24 +108,5 @@ namespace FabrikamFood
             // Handle when your app resumes
         }
 
-        private async void InitRestaurantList()
-        {
-            RestaurantList= await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
-        }
-
-        public async static void SaveUserId(string id)
-        {
-                Application.Current.Properties["userid"] = id;
-            await Application.Current.SavePropertiesAsync();
-        }
-
-        public static string GetUserId()
-        {
-            if (Application.Current.Properties.ContainsKey("userid"))
-            {
-return Application.Current.Properties["userid"] as string;
-            }
-            return null;
-        }
     }
 }

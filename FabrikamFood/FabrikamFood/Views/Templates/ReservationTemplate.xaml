@@ -101,10 +101,10 @@
               <Label Grid.Column="1" Text="MAP" VerticalTextAlignment="Center" TextColor="Black" FontSize="10"></Label>
             </customcontrols:ImageTextButton>
 
-   <customcontrols:ImageTextButton  Grid.Column="3"   CommandParameter="{Binding RestaurantPosition}">
+   <customcontrols:ImageTextButton  Grid.Column="3"   CommandParameter="{Binding ID}">
               <Grid.GestureRecognizers >
                 <TapGestureRecognizer
-                        Tapped="Btn_Map_Clicked"
+                        Tapped="Btn_Cancel_Clicked"
                         NumberOfTapsRequired="1" />
               </Grid.GestureRecognizers>
               <Grid.ColumnDefinitions>

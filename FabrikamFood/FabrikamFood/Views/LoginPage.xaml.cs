@@ -30,12 +30,12 @@ namespace FabrikamFood.Views
 
             if (authenticated == true)
             {
-                // Save to property dictionary 
-                App.SaveUserId(AzureMobileServiceManager.Instance.CurrentClient.CurrentUser.UserId);
-
-                Navigation.InsertPageBefore(new HomePage(), this);
+                App.RootPage.Detail = new NavigationPage(new HomePage());
                 App.RootPage.Master.IsVisible = true;
-                await Navigation.PopAsync();
+
+                // Get social login user info and save to property dictionary 
+                // var userData = await AzureMobileServiceManager.Instance.GetUserData();
+                //   App.SaveSocialLoginResult(userData);
 
             }
         }
@@ -43,10 +43,11 @@ namespace FabrikamFood.Views
         async void Btn_Google_Login_Clicked(object sender, EventArgs e)
         {
             if (App.Authenticator != null)
-                authenticated = await App.Authenticator.Authenticate(MobileServiceAuthenticationProvider.Google);
 
-
-
+                if (await App.Authenticator.Authenticate(MobileServiceAuthenticationProvider.Google))
+                {
+                    authenticated = true;
+                }
         }
 
         async void Btn_Facebook_Login_Clicked(object sender, EventArgs e)

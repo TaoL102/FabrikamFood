@@ -9,17 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net.Http;
+using FabrikamFood.Authentication;
 
 #if OFFLINE_SYNC_ENABLED
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
+using FabrikamFood.Helpers;
 #endif
 
 namespace FabrikamFood.APIManagers
 {
     public class AzureMobileServiceManager
     {
-        private static AzureMobileServiceManager instance=new AzureMobileServiceManager();
+        private static AzureMobileServiceManager instance = new AzureMobileServiceManager();
         private MobileServiceClient client;
 
 #if OFFLINE_SYNC_ENABLED
@@ -39,7 +42,19 @@ namespace FabrikamFood.APIManagers
 
         private AzureMobileServiceManager()
         {
-            this.client = new MobileServiceClient(Constants.APPLICATION_URL);
+            
+
+            var handler = new AuthHandler();
+            //Create our client and pass in Authentication handler
+            this.client = new MobileServiceClient(Constants.APPLICATION_URL, handler);
+
+            //assign mobile client to handler
+            handler.Client = client;
+
+            client.CurrentUser = new MobileServiceUser(Settings.UserId);
+            client.CurrentUser.MobileServiceAuthenticationToken = Settings.AuthToken;
+
+
 
 #if OFFLINE_SYNC_ENABLED
             var store = new MobileServiceSQLiteStore("localstore.db");
@@ -248,6 +263,25 @@ namespace FabrikamFood.APIManagers
             return null;
         }
 
+        public async void DeleteReservationByIdAsync(string id)
+        {
+            try
+            {
+                // get instance
+                var instance=await this.reservationTable.LookupAsync(id);
+                await this.reservationTable.DeleteAsync(instance);
+            }
+            catch (MobileServiceInvalidOperationException msioe)
+            {
+                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(@"Sync error: {0}", e.Message);
+            }
+           
+        }
+
 
 #if OFFLINE_SYNC_ENABLED
         public async Task SyncAsync()
@@ -320,5 +354,12 @@ namespace FabrikamFood.APIManagers
             }
         }
 #endif
+
+        public async Task<SocialLoginResult> GetUserData()
+        {
+            return await client.InvokeApiAsync<SocialLoginResult>(
+                    "getextrauserinfo",
+                    HttpMethod.Get, null);
+        }
     }
 }

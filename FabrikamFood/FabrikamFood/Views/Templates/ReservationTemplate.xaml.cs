@@ -1,4 +1,6 @@
-﻿using FabrikamFood.Views.CustomControls;
+﻿using FabrikamFood.APIManagers;
+using FabrikamFood.Helpers;
+using FabrikamFood.Views.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,7 +22,7 @@ namespace FabrikamFood.Views.Template
         {
             InitializeComponent();
 
-            
+
         }
 
 
@@ -47,7 +49,7 @@ namespace FabrikamFood.Views.Template
                     //      new Uri(string.Format("bingmaps:?where={0}", Uri.EscapeDataString(dropoffPos))));
                     //    break;
             }
-            Debug.WriteLine("clicked" );
+            Debug.WriteLine("clicked");
 
         }
 
@@ -106,6 +108,16 @@ namespace FabrikamFood.Views.Template
             }
             Debug.WriteLine("clicked" + t);
         }
+        private async void Btn_Cancel_Clicked(object sender, EventArgs e)
+        {
+            var b = (ImageTextButton)sender;
+            string t = b.CommandParameter as string ;
 
+            bool result=await UIHelper.PopUpYesOrNoDialogue("CANCEL RESERVATION", "Confirm to cancel this reservation?");
+
+            if (!result) return;
+
+            AzureMobileServiceManager.Instance.DeleteReservationByIdAsync(t);
+        }
     }
 }

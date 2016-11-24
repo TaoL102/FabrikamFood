@@ -1,5 +1,6 @@
 ﻿using FabrikamFood.APIManagers;
 using FabrikamFood.DataModels;
+using FabrikamFood.Helpers;
 using FabrikamFood.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace FabrikamFood.Views
 {
     public partial class ReservationPage : ContentPage
     {
+        private List<Restaurant> restaurantList;
 
         public ReservationPage()
         {
@@ -33,6 +35,9 @@ namespace FabrikamFood.Views
             btn_Add_Reservation.Clicked += Btn_Add_Reservation_Clicked;
             this.ToolbarItems.Add(btn_Add_Reservation);
 
+            // Get restaurants
+            restaurantList = DataHelper.GetFromPropertyDictionary("RestaurantList") as List<Restaurant>;
+
 
             // Set listview_restaurants datasource
             var reservationList = await GetReservations();
@@ -44,6 +49,7 @@ namespace FabrikamFood.Views
         private void Btn_Add_Reservation_Clicked(object sender, EventArgs e)
         {
             App.RootPage.Detail = new NavigationPage(new AddUpdateReservationPage());
+
         }
 
         private async Task<List<ReservationViewModel>> GetReservations()
@@ -53,21 +59,21 @@ namespace FabrikamFood.Views
                 // Get current user id
 
 
-                if (App.GetUserId() == null)
+                if (!Settings.IsLoggedIn)
                 {
 
-                    return null;
+                    return new List<ReservationViewModel>();
                 }
 
                 // Get reservations
-                List<Reservation> list = await AzureMobileServiceManager.Instance.GetReservationByUserIdAsync(App.GetUserId());
+                List<Reservation> list = await AzureMobileServiceManager.Instance.GetReservationByUserIdAsync(Settings.UserId);
 
                 if (list == null) return null;
                 List<ReservationViewModel> listModel = new List<ReservationViewModel>();
 
                 foreach (var r in list)
                 {
-                    Restaurant restaurant = App.RestaurantList.Where(o => o.ID.Equals(r.RestaurantID)).FirstOrDefault();
+                    Restaurant restaurant = restaurantList.Where(o => o.ID.Equals(r.RestaurantID)).FirstOrDefault();
                     ReservationViewModel model = new ReservationViewModel()
                     {
                         ID = r.ID,

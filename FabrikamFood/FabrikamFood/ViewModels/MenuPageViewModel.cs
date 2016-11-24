@@ -34,8 +34,9 @@ namespace FabrikamFood.ViewModels
             App.RootPage.Detail = new NavigationPage(new DishMenuPage());
             App.MenuIsPresented = false;
         }
-        void GoReservation(object obj)
+        void  GoReservation(object obj)
         {
+
             App.RootPage.Detail = new NavigationPage(new ReservationPage());
             App.MenuIsPresented = false;
         }
@@ -45,10 +46,6 @@ namespace FabrikamFood.ViewModels
 
             bool loggedOut = false;
 
-            if (App.Authenticator != null)
-            {
-                loggedOut = await App.Authenticator.LogoutAsync();
-            }
 
             if (loggedOut)
             {

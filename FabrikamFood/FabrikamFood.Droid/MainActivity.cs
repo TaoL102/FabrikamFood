@@ -11,6 +11,7 @@ using Microsoft.WindowsAzure.MobileServices;
 using System.Threading.Tasks;
 using FabrikamFood.APIManagers;
 using Android.Webkit;
+using FabrikamFood.Helpers;
 
 namespace FabrikamFood.Droid
 {
@@ -38,6 +39,14 @@ namespace FabrikamFood.Droid
             LoadApplication(new App());
         }
 
+        private async void InitAuth()
+        {
+            if (!await Authenticate(MobileServiceAuthenticationProvider.Google))
+            {
+              await  Authenticate(MobileServiceAuthenticationProvider.Facebook);
+            }
+        }
+
         public async Task<bool> Authenticate(MobileServiceAuthenticationProvider authProvider)
         {
             var success = false;
@@ -49,6 +58,7 @@ namespace FabrikamFood.Droid
                     // Sign in with Google login using a server-managed flow.
                 user = await AzureMobileServiceManager.Instance.CurrentClient.LoginAsync(this,
                     MobileServiceAuthenticationProvider.Google);
+
                 }
                 else
                 {
@@ -59,6 +69,9 @@ namespace FabrikamFood.Droid
 
                 if (user != null)
                 {
+                                        Settings.AuthToken = user?.MobileServiceAuthenticationToken ?? string.Empty;
+                    Settings.UserId = user?.UserId ?? string.Empty;
+
                     message = string.Format("you are now signed-in as {0}.",
                         user.UserId);
                     success = true;
@@ -70,7 +83,7 @@ namespace FabrikamFood.Droid
             }
 
             // Display the success or failure message.
-            CreateAndShowDialog(message, "Sign-in result");
+         //   CreateAndShowDialog(message, "Sign-in result");
 
             return success;
         }

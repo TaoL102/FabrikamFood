@@ -15,6 +15,7 @@ using FabrikamFood.DataModels;
 using FabrikamFood.APIManagers;
 using System.Globalization;
 using FabrikamFood.ViewModels;
+using FabrikamFood.Helpers;
 
 namespace FabrikamFood.Views
 {
@@ -35,15 +36,26 @@ namespace FabrikamFood.Views
 
         private async void Init()
         {
+
+            // Offline data sync
             await AzureMobileServiceManager.Instance.SyncAsync();
 
-            // Set listview_restaurants datasource
-            var reservationList=await GetReservationsForToday();
-            ListView_Reservations.ItemsSource = reservationList;
-            ListView_Reservations.HeightRequest = reservationList.Count()* (Constants.LISTVIEW_CELL_HEIGHT_RESERVATION+Constants.LISTVIEW_CELL_SPACING);
-
             // Get restaurant list
-            restaurantList = App.RestaurantList;
+            if(DataHelper.GetFromPropertyDictionary("RestaurantList")==null)
+            {
+restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
+                DataHelper.SaveToPropertyDictionary("RestaurantList", restaurantList);
+            }
+            else
+            {
+                restaurantList = DataHelper.GetFromPropertyDictionary("RestaurantList") as List<Restaurant>;
+            }
+            
+
+            // Set listview_restaurants datasource
+            var reservationList = await GetReservationsForToday();
+            ListView_Reservations.ItemsSource = reservationList;
+            ListView_Reservations.HeightRequest = reservationList.Count() * (Constants.LISTVIEW_CELL_HEIGHT_RESERVATION + Constants.LISTVIEW_CELL_SPACING);
 
             // Get nearest restaurant and pin to map
             nearestRestaurant = await GoogleMapsManager.Instance.GetNearestRestaurantAsync(restaurantList);
@@ -152,21 +164,21 @@ namespace FabrikamFood.Views
  // Get current user id
             
 
-                if (App.GetUserId() == null)
+                if (!Settings.IsLoggedIn)
                 {
 
-                    return null;
+                    return new List<ReservationViewModel>();
                 }
 
                 // Get reservations
-                List<Reservation> list = await AzureMobileServiceManager.Instance.GetReservationForTodayByUserIdAsync(App.GetUserId());
+                List<Reservation> list = await AzureMobileServiceManager.Instance.GetReservationForTodayByUserIdAsync(Settings.UserId);
 
                 if( list == null) return null;
                 List<ReservationViewModel> listModel = new List<ReservationViewModel>();
 
                 foreach (var r in list)
                 {
-                    Restaurant restaurant = App.RestaurantList.Where(o => o.ID.Equals(r.RestaurantID)).FirstOrDefault();
+                    Restaurant restaurant = restaurantList.Where(o => o.ID.Equals(r.RestaurantID)).FirstOrDefault();
                     ReservationViewModel model = new ReservationViewModel()
                     {
                         ID = r.ID,
