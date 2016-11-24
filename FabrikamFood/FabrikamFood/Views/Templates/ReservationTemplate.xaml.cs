@@ -30,7 +30,7 @@ namespace FabrikamFood.Views.Template
         {
 
             var b = (ImageTextButton)sender;
-            Position t = (b.CommandParameter == null) ? new Position(0, 0) : ((Position)b.CommandParameter);
+            string t = b.CommandParameter as string;
 
             //Reference: https://developer.xamarin.com/recipes/cross-platform/xamarin-forms/maps/map-navigation/
             switch (Device.OS)
@@ -41,7 +41,7 @@ namespace FabrikamFood.Views.Template
                 //    break;
                 case TargetPlatform.Android:
                     Device.OpenUri(
-                      new Uri(string.Format("tel:1112223333")));
+                      new Uri(string.Format("tel:{0}",t)));
                     break;
                     //case TargetPlatform.Windows:
                     //case TargetPlatform.WinPhone:

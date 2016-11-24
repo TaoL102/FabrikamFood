@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FFImageLoading.Forms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace FabrikamFood.Views
         public FoodDishPage()
         {
             InitializeComponent();
+          
         }
     }
 }

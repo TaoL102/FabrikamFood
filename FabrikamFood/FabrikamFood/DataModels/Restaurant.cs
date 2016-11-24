@@ -23,5 +23,8 @@ namespace FabrikamFood.DataModels
 
         [JsonProperty(PropertyName = "Longitude")]
         public double Longitude { get; set; }
+
+        [JsonProperty(PropertyName = "Phone")]
+        public string Phone { get; set; }
     }
 }

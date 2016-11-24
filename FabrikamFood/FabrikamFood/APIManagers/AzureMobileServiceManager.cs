@@ -128,7 +128,6 @@ namespace FabrikamFood.APIManagers
         public async Task<List<Coupon>> GetCouponsByApplicableRestaurantIdAsync(string applicableRestaurantId)
         {
 
-
             try
             {
                 List<Coupon> coupons = await this.couponTable
@@ -198,6 +197,24 @@ namespace FabrikamFood.APIManagers
             {
                 List<FoodDish> foodDishes = await this.foodDishTable.ToListAsync();
                 return foodDishes;
+            }
+            catch (MobileServiceInvalidOperationException msioe)
+            {
+                Debug.WriteLine(@"Invalid sync operation: {0}", msioe.Message);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(@"Sync error: {0}", e.Message);
+            }
+            return null;
+        }
+
+        public async Task<FoodDish> GetFoodDishByIdAsync(string id)
+        {
+            try
+            {
+                FoodDish foodDish= await this.foodDishTable.LookupAsync(id);
+                return foodDish;
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -304,11 +321,11 @@ namespace FabrikamFood.APIManagers
                     "couponTable",
                     this.couponTable.CreateQuery());
 
-                //await this.foodDishTable.PullAsync(
-                //   //The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
-                //   //Use a different query name for each unique query in your program
-                //   "foodDishTable" ,
-                //   this.foodDishTable.CreateQuery());
+                await this.foodDishTable.PullAsync(
+                   //The first parameter is a query name that is used internally by the client SDK to implement incremental sync.
+                   //Use a different query name for each unique query in your program
+                   "foodDishTable",
+                   this.foodDishTable.CreateQuery());
 
                 await this.categoryTable.PullAsync(
                    //The first parameter is a query name that is used internally by the client SDK to implement incremental sync.

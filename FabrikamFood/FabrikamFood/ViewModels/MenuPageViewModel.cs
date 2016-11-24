@@ -46,6 +46,10 @@ namespace FabrikamFood.ViewModels
 
             bool loggedOut = false;
 
+            if (App.Authenticator != null)
+            {
+                loggedOut = await App.Authenticator.LogoutAsync();
+            }
 
             if (loggedOut)
             {

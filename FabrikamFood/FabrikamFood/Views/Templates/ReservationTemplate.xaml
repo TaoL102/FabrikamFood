@@ -47,7 +47,7 @@
              <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-  <customcontrols:ImageTextButton  Grid.Column="0"   CommandParameter="{Binding RestaurantPosition}">
+  <customcontrols:ImageTextButton  Grid.Column="0"   CommandParameter="{Binding RestaurantPhone}">
               <Grid.GestureRecognizers >
                 <TapGestureRecognizer
                         Tapped="Btn_Call_Clicked"

@@ -33,9 +33,7 @@ namespace FabrikamFood.Views
                 App.RootPage.Detail = new NavigationPage(new HomePage());
                 App.RootPage.Master.IsVisible = true;
 
-                // Get social login user info and save to property dictionary 
-                // var userData = await AzureMobileServiceManager.Instance.GetUserData();
-                //   App.SaveSocialLoginResult(userData);
+
 
             }
         }

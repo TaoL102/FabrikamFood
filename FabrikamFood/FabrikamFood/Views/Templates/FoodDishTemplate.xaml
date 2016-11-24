@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FabrikamFood.Views.Templates.FoodDishTemplate"
+             
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:customcontrols="clr-namespace:FabrikamFood.Views.CustomControls;assembly=FabrikamFood"
+             >
+  <ContentView.Content>
+    <StackLayout Orientation="Vertical">
+      <Grid Margin="0,10,0,0" BackgroundColor="Transparent">
+        <StackLayout>
+          <ffimageloading:CachedImage HeightRequest="200"
+           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+            DownsampleHeight  = "200"
+            Source = "{Binding PicUrl}">
+          </ffimageloading:CachedImage>
+          <Label  Margin="10,0,0,0" Text="{Binding Name}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" TextColor="Black"/>
+          <Grid  Margin="10,0,10,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Text="{Binding Price}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Micro" TextColor="Black"/>
+            <customcontrols:ImageTextButton  Grid.Column="1"   CommandParameter="{Binding ID}">
+              <Grid.GestureRecognizers >
+                <TapGestureRecognizer
+                        Tapped="Btn_Share_Clicked"
+                        NumberOfTapsRequired="1" />
+              </Grid.GestureRecognizers>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition ></ColumnDefinition>
+              </Grid.ColumnDefinitions>
+              <ffimageloading:CachedImage
+            Grid.Column="0" HorizontalOptions="End" VerticalOptions="Center" HeightRequest="18" WidthRequest="18"
+            DownsampleToViewSize = "true"
+            Source = "share_icon.png">
+              </ffimageloading:CachedImage>
+              <Label  Grid.Column="1" Text="SHARE" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" TextColor="Black" FontSize="10"></Label>
+            </customcontrols:ImageTextButton>
+          </Grid>
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="1"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid  BackgroundColor="#dcdee3"></Grid>
+          </Grid>
+        </StackLayout>
+      </Grid>
+    </StackLayout>
+  </ContentView.Content>
+</ContentView>
+

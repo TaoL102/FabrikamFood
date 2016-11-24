@@ -21,5 +21,7 @@ namespace FabrikamFood.DataModels
         [JsonProperty(PropertyName = "Price")]
         public double Price { get; set; }
 
+        [JsonProperty(PropertyName = "PicUrl")]
+        public string PicUrl { get; set; }
     }
 }

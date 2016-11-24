@@ -32,6 +32,7 @@ namespace FabrikamFood
 
         public static int LISTVIEW_CELL_HEIGHT_RESERVATION = 160;
         public static int LISTVIEW_CELL_HEIGHT_COUPON = 130;
+        public static int LISTVIEW_CELL_HEIGHT_FOODDISH = 270;
         public static int LISTVIEW_CELL_SPACING = 10;
 
         #endregion

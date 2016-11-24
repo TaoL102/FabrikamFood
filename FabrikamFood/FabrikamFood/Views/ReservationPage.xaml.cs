@@ -68,7 +68,7 @@ namespace FabrikamFood.Views
                 // Get reservations
                 List<Reservation> list = await AzureMobileServiceManager.Instance.GetReservationByUserIdAsync(Settings.UserId);
 
-                if (list == null) return null;
+                if (list == null) return new List<ReservationViewModel>(); ;
                 List<ReservationViewModel> listModel = new List<ReservationViewModel>();
 
                 foreach (var r in list)
@@ -82,7 +82,8 @@ namespace FabrikamFood.Views
                         RestaurantName = restaurant.Name,
                         RestaurantPosition = new Position(restaurant.Latitude, restaurant.Longitude),
                         Date = r.Date.ToString("dd/MM/yyyy"),
-                        Time = r.Time.ToString(@"hh\:mm")
+                        Time = r.Time.ToString(@"hh\:mm"),
+                        RestaurantPhone = restaurant.Phone,
                     };
 
                     listModel.Add(model);
@@ -92,10 +93,10 @@ namespace FabrikamFood.Views
 
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
-                throw ex;
+                return new List<ReservationViewModel>();
             }
 
 

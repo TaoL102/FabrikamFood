@@ -153,43 +153,6 @@
 
           <!--Coupon End-->
 
-          <!--Favourite Start-->
-          <StackLayout >
-            <Label Margin="15,15,15,0" Text="Your Favourites" FontSize="Large" FontAttributes="Bold" TextColor="Black"></Label>
-            <Label  Margin="15,0,15,0" Text="Based on your history orders" FontSize="Small" TextColor="Black"></Label>
-            <ListView ItemsSource="{Binding Source={StaticResource Favourite}, Path=Obj}" SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="300" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
-              <ListView.ItemTemplate>
-                <DataTemplate>
-                  <ViewCell>
-                    <StackLayout BackgroundColor="#eee"
-                       Orientation="Vertical">
-                      <Grid>
-                        <Grid.RowDefinitions>
-                          <RowDefinition Height="250"></RowDefinition>
-                          <RowDefinition Height="50"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                          <ColumnDefinition  Width="*"></ColumnDefinition>
-                          <ColumnDefinition Width="50"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <ffimageloading:CachedImage
-                         Grid.Row="0" Grid.ColumnSpan="2"
-                         HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                         DownsampleToViewSize = "true"
-                         Source ="{Binding PicUrl}">
-                        </ffimageloading:CachedImage>
-
-                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding Name}"  FontSize="20" TextColor="Black"/>
-                        <Label Grid.Row="1" Grid.Column="1"  Text="{Binding Price}"  FontSize="20" TextColor="Black"/>
-                      </Grid>
-                    </StackLayout>
-                  </ViewCell>
-                </DataTemplate>
-              </ListView.ItemTemplate>
-            </ListView>
-          </StackLayout>
-
-          <!--Favourite End-->
 
           <Label Text=""></Label>
 

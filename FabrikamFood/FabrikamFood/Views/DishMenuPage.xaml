@@ -3,44 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FabrikamFood.Views.DishMenuPage"
              xmlns:common="clr-namespace:UXDivers.Gorilla;assembly=UXDivers.Gorilla.Common"
+             xmlns:templates="clr-namespace:FabrikamFood.Views.Templates;assembly=FabrikamFood"
 >
-  <!--Resource Start-->
-  <ContentPage.Resources>
-    <ResourceDictionary>
-      <common:JsonData x:Key="Category">
-        [
-        { "Code": "2D4SXD", "Discount":29,"Name":"Drinks", "PicUrl":"friend_thumbnail_27.jpg","ExpiryDate":"Dec 15,2016" },
-        { "Code": "2D4SXD", "Discount":29,"Name":"Desserts", "PicUrl":"friend_thumbnail_27.jpg","ExpiryDate":"Dec 15,2016" },
-        { "Code": "2D4SXD", "Discount":29,"Name":"Breakfastt", "PicUrl":"friend_thumbnail_27.jpg" ,"ExpiryDate":"Dec 15,2016"},
-        { "Code": "2D4SXD", "Discount":29,"Name":"Sides", "PicUrl":"friend_thumbnail_27.jpg" ,"ExpiryDate":"Dec 15,2016"}
-        ]
-      </common:JsonData>
 
-    </ResourceDictionary>
-  </ContentPage.Resources>
-  <!--Resource End-->
 
 
   <ContentPage.Content>
-    <ListView  SeparatorVisibility="None"  HasUnevenRows = "False" RowHeight="130" IsPullToRefreshEnabled = "true"  CachingStrategy="RecycleElement" >
-      <ListView.ItemTemplate>
-        <DataTemplate>
-          <ViewCell>
-            <StackLayout Orientation="Vertical">
-              <Grid  Margin="0,0,0,10">
-                <Image Source="couponbg_sample1.png"  Grid.Row="0" Aspect="AspectFill"/>
+
+    <ScrollView>
+      <StackLayout >
+
+        <!--New Reservation Button Start-->
+        <!--<Grid Margin="0,20,0,0" Padding="10" >
+          <Button Text="Make a reservation" BackgroundColor="#2196F3"></Button>
+        </Grid>-->
+        <!--New Reservation Button End-->
 
 
-                  <Label VerticalTextAlignment="Center" Grid.Row="0" HeightRequest="130" Margin="40,0,0,0" Text="{Binding Name}"  FontSize="Large" TextColor="White"/>
 
+        <!--Dish Start-->
+        <StackLayout  Margin="0,20,0,0" Padding="0,10,0,0" BackgroundColor="White">
+          <Label Text="Dishes" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
+          <ListView x:Name="ListView_FoodDishes"   SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="270" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <ViewCell>
+                  <templates:FoodDishTemplate></templates:FoodDishTemplate>
+                </ViewCell>
+              </DataTemplate>
+            </ListView.ItemTemplate>
+          </ListView>
+        </StackLayout>
 
-              </Grid>
-            </StackLayout >
-          </ViewCell>
-        </DataTemplate>
-      </ListView.ItemTemplate>
-    </ListView>
+        <!--Dish End-->
+      </StackLayout >
+    </ScrollView>
+    
   </ContentPage.Content>
+
 
 
 </ContentPage>

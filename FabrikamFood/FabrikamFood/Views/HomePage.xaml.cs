@@ -32,11 +32,14 @@ namespace FabrikamFood.Views
             InitializeComponent();
 
             Init();
+
+
+            
         }
 
         private async void Init()
         {
-
+       
             // Offline data sync
             await AzureMobileServiceManager.Instance.SyncAsync();
 
@@ -48,6 +51,8 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
             }
             else
             {
+                restaurantList = await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
+                DataHelper.SaveToPropertyDictionary("RestaurantList", restaurantList);
                 restaurantList = DataHelper.GetFromPropertyDictionary("RestaurantList") as List<Restaurant>;
             }
             
@@ -77,6 +82,7 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
              var couponList= await AzureMobileServiceManager.Instance.GetCouponsByApplicableRestaurantIdAsync(nearestRestaurant.ID);
             ListView_Coupons.ItemsSource = couponList;
             ListView_Coupons.HeightRequest = couponList.Count * (Constants.LISTVIEW_CELL_HEIGHT_COUPON + Constants.LISTVIEW_CELL_SPACING);
+
 
         }
 
@@ -161,8 +167,6 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
         {
             try
             {
- // Get current user id
-            
 
                 if (!Settings.IsLoggedIn)
                 {
@@ -173,7 +177,7 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
                 // Get reservations
                 List<Reservation> list = await AzureMobileServiceManager.Instance.GetReservationForTodayByUserIdAsync(Settings.UserId);
 
-                if( list == null) return null;
+                if( list == null) return new List<ReservationViewModel>();
                 List<ReservationViewModel> listModel = new List<ReservationViewModel>();
 
                 foreach (var r in list)
@@ -187,7 +191,8 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
                         RestaurantName = restaurant.Name,
                         RestaurantPosition = new Position(restaurant.Latitude, restaurant.Longitude),
                         Date = r.Date.ToString("dd/MM/yyyy"),
-                        Time = r.Time.ToString(@"hh\:mm")
+                        Time = r.Time.ToString(@"hh\:mm"),
+                        RestaurantPhone = restaurant.Phone,
                     };
 
                     listModel.Add(model);
@@ -197,10 +202,10 @@ restaurantList =await AzureMobileServiceManager.Instance.GetRestaurantsAsync();
 
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
-                throw ex;
+                return new List<ReservationViewModel>();
             }
            
 
