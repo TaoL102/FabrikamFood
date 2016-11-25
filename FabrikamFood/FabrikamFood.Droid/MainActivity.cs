@@ -99,6 +99,7 @@ namespace FabrikamFood.Droid
                 {
                     CookieManager.Instance.RemoveAllCookie();
                     Settings.UserId = null;Settings.AuthToken = null;
+                    AzureMobileServiceManager.Instance.CurrentClient.CurrentUser = null;
                     await AzureMobileServiceManager.Instance.CurrentClient.LogoutAsync();
                     CreateAndShowDialog(string.Format("You are now logged out - {0}", user.UserId), "Logged out!");
                 }

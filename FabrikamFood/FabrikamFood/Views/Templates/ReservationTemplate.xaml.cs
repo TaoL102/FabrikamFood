@@ -118,6 +118,8 @@ namespace FabrikamFood.Views.Template
             if (!result) return;
 
             AzureMobileServiceManager.Instance.DeleteReservationByIdAsync(t);
+
+            
         }
     }
 }

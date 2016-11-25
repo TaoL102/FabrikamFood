@@ -44,7 +44,7 @@
               <ColumnDefinition  ></ColumnDefinition >
               <ColumnDefinition  ></ColumnDefinition >
             </Grid.ColumnDefinitions>
-            <Label x:Name="Lbl_Greeting" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"  Text="Good Morning,Tao!" FontSize="Small" TextColor="Black"></Label>
+            <Label x:Name="Lbl_Greeting" Grid.Column="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Start"  Text="" FontSize="Small" TextColor="Black"></Label>
             <Image  x:Name="Img_Weather"  Grid.Column="1" Source=""></Image>
             <Label  x:Name="Lbl_Weather"  Grid.Column="2"  VerticalTextAlignment="Center" HorizontalTextAlignment="End"  Text=""  FontSize="Small"  TextColor="Black"></Label>
           </Grid>
@@ -69,11 +69,11 @@
           <!--Map Start-->
           <StackLayout   Margin="0,20,0,0" Padding="10" BackgroundColor="White">
             <Label Text="Nearby Fabrikam" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
-            <Label x:Name="MapRestaurantName" Text="Goole map will guide you to the nearest Fabrikam" FontSize="Small" TextColor="Black"></Label>
+            <Label x:Name="MapRestaurantName" Text="Looking for the nearest Fabrikam..." FontSize="Small" TextColor="Black"></Label>
             <StackLayout>
               <maps:Map HeightRequest="200"  x:Name="NearestRestaurantMap"  IsShowingUser="true"  />
               <Grid>
-                <Button Grid.Row="0" TextColor="Black" BackgroundColor="Black" Clicked="Btn_Nav_Clicked"></Button>
+                <Button Grid.Row="0" TextColor="Black" BackgroundColor="Black" Clicked="Btn_Uber_Clicked"></Button>
                 <Grid  Grid.Row="0" Margin="20,0,20,0">
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" ></ColumnDefinition>

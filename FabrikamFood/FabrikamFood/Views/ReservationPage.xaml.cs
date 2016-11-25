@@ -40,10 +40,15 @@ namespace FabrikamFood.Views
 
 
             // Set listview_restaurants datasource
-            var reservationList = await GetReservations();
+            List<ReservationViewModel> reservationList = new List<ReservationViewModel>();
+            await Task.Run(async () => {
+                reservationList = await GetReservations();
+            });
+            if (reservationList.Count <= 0) return;
+            
             ListView_Reservations.ItemsSource = reservationList;
             ListView_Reservations.HeightRequest = reservationList.Count() * (Constants.LISTVIEW_CELL_HEIGHT_RESERVATION + Constants.LISTVIEW_CELL_SPACING);
-
+            Frame_Reservations.IsVisible = true;
         }
 
         private void Btn_Add_Reservation_Clicked(object sender, EventArgs e)

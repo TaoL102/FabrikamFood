@@ -31,13 +31,15 @@
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="30"></ColumnDefinition>
               <ColumnDefinition></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <ffimageloading:CachedImage
            Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
            DownsampleToViewSize = "true"
            Source = "ic_access_time_black_48dp.png">
             </ffimageloading:CachedImage>
-            <Label Grid.Column="1"  Text="{Binding Time}"  FontSize="Micro" TextColor="Black"  VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+                        <Label Grid.Column="1"  Text="{Binding Date}"  FontSize="Micro" TextColor="Black"  VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
+            <Label Grid.Column="2"  Text="{Binding Time}"  FontSize="Micro" TextColor="Black"  VerticalTextAlignment="Center" HorizontalTextAlignment="Start"/>
           </Grid>
           <Grid Padding="0">
             <Grid.ColumnDefinitions>

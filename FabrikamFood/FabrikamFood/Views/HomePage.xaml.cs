@@ -9,6 +9,7 @@ using FabrikamFood.DataModels;
 using FabrikamFood.APIManagers;
 using FabrikamFood.ViewModels;
 using FabrikamFood.Helpers;
+using System.Diagnostics;
 
 namespace FabrikamFood.Views
 {
@@ -17,7 +18,6 @@ namespace FabrikamFood.Views
         // Fields
         private List<Restaurant> restaurantList;
         private Restaurant nearestRestaurant;
-        private ViewModels.GoogleMapsDistance.Element nearestMapElement;
 
         public HomePage()
         {
@@ -164,7 +164,33 @@ ListView_Coupons.ItemsSource = couponList;
             }
         }
 
+        private void Btn_Uber_Clicked(object sender, EventArgs e)
+        {
 
+
+            // Get dropoffPos string
+            string dropoffPos = "dropoff[latitude] =" + nearestRestaurant.Latitude + "dropoff[longitude]=" + nearestRestaurant.Longitude;
+            string clientId = Constants.UBER_CLIENT_ID;
+
+            //Reference: https://developer.xamarin.com/recipes/cross-platform/xamarin-forms/maps/map-navigation/
+            switch (Device.OS)
+            {
+                //case TargetPlatform.iOS:
+                //    Device.OpenUri(
+                //      new Uri(string.Format("http://maps.apple.com/?q={0}", WebUtility.UrlEncode(dropoffPos))));
+                //    break;
+                case TargetPlatform.Android:
+                    Device.OpenUri(
+                      new Uri(string.Format("uber://?action=setPickup&pickup=my_location&{0}&client_id={1}", WebUtility.UrlEncode(dropoffPos), WebUtility.UrlEncode(clientId))));
+                    break;
+                    //case TargetPlatform.Windows:
+                    //case TargetPlatform.WinPhone:
+                    //    Device.OpenUri(
+                    //      new Uri(string.Format("bingmaps:?where={0}", Uri.EscapeDataString(dropoffPos))));
+                    //    break;
+            }
+           
+        }
 
         private async void SetWeatherText()
         {
@@ -182,6 +208,21 @@ ListView_Coupons.ItemsSource = couponList;
 
 
             // set text
+            if (DateTime.Now.Hour < 12)
+            {
+                Lbl_Greeting.Text = "Good Morning";
+            
+            }
+            else if (DateTime.Now.Hour < 17)
+            {
+                Lbl_Greeting.Text = "Good Afternoon";
+          
+            }
+            else
+            {
+                Lbl_Greeting.Text = "Good Evening";
+               
+            }
             Lbl_Weather.Text = dic["CityAndTemp"];
             Img_Weather.Source = dic["IconURL"];
         }

@@ -22,7 +22,7 @@
 
 
         <!--Dish Start-->
-        <StackLayout  Margin="0,20,0,0" Padding="0,10,0,0" BackgroundColor="White">
+        <StackLayout x:Name="Frame_Dishes" IsVisible="False"  Margin="0,20,0,0" Padding="0,10,0,0" BackgroundColor="White">
           <Label Text="Dishes" FontSize="16" FontAttributes="Bold" TextColor="Black"></Label>
           <ListView x:Name="ListView_FoodDishes"   SeparatorVisibility="None" HasUnevenRows = "False" RowHeight="270" BackgroundColor="White" IsPullToRefreshEnabled = "true" CachingStrategy="RecycleElement" >
             <ListView.ItemTemplate>
